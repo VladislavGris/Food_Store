@@ -2,12 +2,11 @@ package by.grishkevich.food_store_data.models;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.Set;
 
 @Data
@@ -24,26 +23,26 @@ public class Order extends BaseEntity{
     @NotNull(message = "Time can not be empty")
     private LocalTime time;
 
-    @Column(name = "PlacedAt")
-    private Date placedAt;
+    @Column(name = "placed_at")
+    private LocalDateTime placedAt;
 
     @Column(name = "State")
     @Enumerated(EnumType.STRING)
     private OrderState state = OrderState.Placed;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ClientId")
+    @ManyToOne
+    @JoinColumn(name = "client_id")
     @NotNull
     private Client client;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "Orders_Products",
-            joinColumns = @JoinColumn(name = "OrderId"),
-            inverseJoinColumns = @JoinColumn(name = "ProductId"))
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
     private Set<Product> products;
 
     @PrePersist
     void placedAt(){
-        this.placedAt = new Date();
+        this.placedAt = LocalDateTime.now();
     }
 }
