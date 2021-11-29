@@ -4,32 +4,37 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.util.Collection;
 
 @Data
 @MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
-public class Person extends BaseEntity{
+public class Person extends BaseEntity implements UserDetails {
+    @NotEmpty(message = "Name should not be empty")
+    @Size(min = 3, max = 30, message = "Name should be between 3 and 30 characters")
     @Column(name = "Name")
-    @NotBlank(message = "Name can not be empty")
     private String name;
-
+    @NotEmpty(message = "Surname should not be empty")
+    @Size(min = 3, max = 30, message = "Surname should be between 3 and 30 characters")
     @Column(name = "Surname")
-    @NotBlank(message = "Surname can not be empty")
     private String surname;
-
+    @NotEmpty(message = "Email should not be empty")
+    @Email(message = "Email should be valid")
     @Column(name = "Email")
-    @NotBlank(message = "Email is required")
-    @Email(message = "Email format is not correct")
     private String email;
-
+    @NotEmpty(message = "Password should not be empty")
+    @Size(min = 5, max = 70, message = "Password should be between 5 and 70 characters")
     @Column(name = "Password")
-    @NotBlank(message = "Password is required")
-    @Length(min = 4, max = 32, message = "Password length must be between 4 and 32 characters")
     private String password;
 
     public Person(Long id, String name, String surname, String email, String password){
@@ -38,5 +43,35 @@ public class Person extends BaseEntity{
         this.surname = surname;
         this.email = email;
         this.password = password;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

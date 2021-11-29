@@ -15,12 +15,9 @@ import java.util.Set;
 public class Order extends BaseEntity{
 
     @Column(name = "Date")
-    @NotNull(message = "Date can not be empty")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     @Column(name = "Time")
-    @NotNull(message = "Time can not be empty")
     private LocalTime time;
 
     @Column(name = "placed_at")
@@ -32,7 +29,6 @@ public class Order extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    @NotNull
     private Client client;
 
     @ManyToMany(fetch = FetchType.EAGER)

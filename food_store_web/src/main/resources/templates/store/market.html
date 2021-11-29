@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style>
+        .product{
+            margin: 5rem;
+        }
+    </style>
+    <title>Food Store</title>
+</head>
+<body>
+    <header class="container-lg">
+        <div class="row">
+            <div class="img col-4" style="background-color: purple; height: 60px;">
+                LOGO
+            </div>
+            <nav class="navbar navbar-light col-8" style="background-color: #e3f2fd;">
+                <div class="navbar-brand">Food Store</div>
+                <div class="nav-item dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Категории
+                    </button>
+                    <div class="dropdown-menu" style="width: 400px;" aria-labelledby="dropdownMenuButton">
+                        
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" href="#">Корзина</a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" href="#">Выход</a>
+                </div>
+            </nav>
+        </div>
+        
+    </header>
+    <main>
+        <div class="container-lg">
+            <div class="row">
+                <div class="col-sm-2" style="background-color: red;">
+                    <form>
+                        <h4>Фильтры</h4>
+                        <hr>
+                        <div class="container filter-trademark">
+                            <h5>Торговая марка</h5>
+                            <div class="filter-item">
+                                <label>
+                                    <input type="checkbox" name="trademark[tm1]" value="tm1">
+                                    Trademark 1
+                                </label>
+                            </div>
+                            <div class="filter-item">
+                                <label>
+                                    <input type="checkbox" name="trademark[tm2]" value="tm2">
+                                    Trademark 2
+                                </label>
+                            </div>
+                            <div class="filter-item">
+                                <label>
+                                    <input type="checkbox" name="trademark[tm3]" value="tm3">
+                                    Trademark 3
+                                </label>
+                            </div>
+                            <div class="filter-item">
+                                <label>
+                                    <input type="checkbox" name="trademark[tm4]" value="tm4">
+                                    Trademark 4
+                                </label>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="container filter-country">
+                            <h5>Страна производитель</h5>
+                            <div class="filter-itme">
+                                <label>
+                                    <input type="checkbox" name="country[c1]" value="c1">
+                                    Country 1
+                                </label>
+                            </div>
+                            <div class="filter-itme">
+                                <label>
+                                    <input type="checkbox" name="country[c2]" value="c2">
+                                    Country 2
+                                </label>
+                            </div>
+                            <div class="filter-itme">
+                                <label>
+                                    <input type="checkbox" name="country[c3]" value="c3">
+                                    Country 3
+                                </label>
+                            </div>
+                            <div class="filter-itme">
+                                <label>
+                                    <input type="checkbox" name="country[c4]" value="c4">
+                                    Country 4
+                                </label>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="container filter-price">
+                            <div>Цена</div>
+                            <div class="row">
+                                <input type="text" maxlength="15" placeholder="от" class="col-6" id="price_from" name="price_from">
+                                <input type="text" maxlength="15" placeholder="до" class="col-6" id="price_to" name="price_to">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="container">
+                            <button id="filter-submit" value="Найти" class="btn btn-primary">Найти</button>
+                        </div>
+                        
+                    </form>
+                </div>
+                <div class="col-sm-8 container" style="background-color: blue;">
+                    <div class="row">
+                        <div class="card col-sm-2 .product">
+                            <img src="../../static/images/cart.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title">Product 1</h5>
+                              <a href="#" class="btn btn-primary">В корзину</a>
+                            </div>
+                        </div>
+                        <div class="card col-sm-2">
+                            <img src="../../static/images/cart.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title">Product 1</h5>
+                              <a href="#" class="btn btn-primary">В корзину</a>
+                            </div>
+                        </div>
+                        <div class="card col-sm-2">
+                            <img src="../../static/images/cart.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title">Product 1</h5>
+                              <a href="#" class="btn btn-primary">В корзину</a>
+                            </div>
+                        </div>
+                        <div class="card col-sm-2">
+                            <img src="../../static/images/cart.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title">Product 1</h5>
+                              <a href="#" class="btn btn-primary">В корзину</a>
+                            </div>
+                        </div>
+                        <div class="card col-sm-2">
+                            <img src="../../static/images/cart.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title">Product 1</h5>
+                              <a href="#" class="btn btn-primary">В корзину</a>
+                            </div>
+                        </div>
+                        <div class="card col-sm-2">
+                            <img src="../../static/images/cart.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title">Product 1</h5>
+                              <a href="#" class="btn btn-primary">В корзину</a>
+                            </div>
+                        </div>
+                        <div class="card col-sm-2">
+                            <img src="../../static/images/cart.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title">Product 1</h5>
+                              <a href="#" class="btn btn-primary">В корзину</a>
+                            </div>
+                        </div>
+                        <div class="card col-sm-2">
+                            <img src="../../static/images/cart.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title">Product 1</h5>
+                              <a href="#" class="btn btn-primary">В корзину</a>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                </div>
+                <div class="col-sm-2" style="background-color: green;">
+                    <div class="container row justify-content-center">
+                        <form>
+                            <div>
+                                <h4>Корзина</h4>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    Product 1
+                                    <input type="number" step="1" class="col-4" maxlength="10" id="product_count[pr1]" name="product_count[pr1]">
+                                    <input type="submit" name="remove[pr1]" value="Remove">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    Product 2
+                                    <input type="number" step="1" class="col-4" maxlength="10" id="product_count[pr2]" name="product_count[pr2]">
+                                    <input type="submit" name="remove[pr1]" value="Remove">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    Product 3
+                                    <input type="number" step="1" class="col-4" maxlength="10" id="product_count[pr3]" name="product_count[pr3]">
+                                    <input type="submit" name="remove[pr1]" value="Remove">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    Product 4
+                                    <input type="number" step="1" class="col-4" maxlength="10" id="product_count[pr4]" name="product_count[pr4]">
+                                    <input type="submit" name="remove[pr1]" value="Remove">
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label>
+                                    Product 5
+                                    <input type="number" step="1" class="col-4" maxlength="10" id="product_count[pr5]" name="product_count[pr5]">
+                                    <input type="submit" name="remove[pr1]" value="Remove">
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="container-lg">
+        <div class="row" style="background-color: aquamarine; height: 100px; margin: 0px; padding: 0px;">
+            
+        </div>
+    </footer>
+</body>
+</html>

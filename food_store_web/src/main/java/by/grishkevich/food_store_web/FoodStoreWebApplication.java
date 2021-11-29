@@ -27,15 +27,9 @@ public class FoodStoreWebApplication{
     }
 
     @Bean
-    public CommandLineRunner demo(OrderRepository repository) {
+    public CommandLineRunner demo(AdministratorRepository repository) {
         return (args) -> {
-
-            log.info("Customers found with findAll():");
-            log.info("-------------------------------");
-            var countries = repository.findAll();
-            for (Order customer : countries) {
-                log.info(customer.toString());
-            }
+            log.info(repository.findByEmail("vlad.grishkevich0503@gmail.com").getName());
         };
     }
 }

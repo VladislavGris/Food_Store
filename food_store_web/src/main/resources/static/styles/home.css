@@ -1,0 +1,28 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+.banner{
+    position: relative;
+}
+
+.banner .banner-image{
+    max-width: 100%;
+}
+
+.logo-container{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+}
+
+.logo{
+    width: 45%;
+}
+
+.slogan{
+    font-size: 32px;
+    color: #fff9fb;
+    font-weight: 300;
+}
