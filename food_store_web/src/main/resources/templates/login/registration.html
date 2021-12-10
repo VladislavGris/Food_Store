@@ -10,31 +10,31 @@
 </head>
 <body class="text-center">
     <main class="login">
-        <form method="POST" th:action="@{/register}" id="registerForm">
+        <form method="POST" th:action="@{/register}" th:object="${client}" id="registerForm">
             <img class="mb-4" th:src="@{/images/cart.png}" alt="" width="72" height="57">
             <h1 class="h3 mb-3 fw-normal">Register</h1>
             <div class="form-floating">
-                <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com">
+                <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com" th:field="*{email}">
                 <label for="email">Email address</label>
             </div>
             <div class="form-floating">
-                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                <input type="password" name="password" class="form-control" id="password" placeholder="Password" th:field="*{password}">
                 <label for="password">Password</label>
             </div>
             <div class="form-floating">
-                <input type="text" name="name" class="form-control" id="name" placeholder="Name">
+                <input type="text" name="name" class="form-control" id="name" placeholder="Name" th:field="*{name}">
                 <label for="name">Name</label>
             </div>
             <div class="form-floating">
-                <input type="text" name="surname" class="form-control" id="surname" placeholder="Surname">
+                <input type="text" name="surname" class="form-control" id="surname" placeholder="Surname" th:field="*{surname}">
                 <label for="surname">Surname</label>
             </div>
             <div class="form-floating">
-                <input type="text" name="address" class="form-control" id="address" placeholder="Address">
+                <input type="text" name="address" class="form-control" id="address" placeholder="Address" th:field="*{address}">
                 <label for="address">Address</label>
             </div>
             <div class="form-floating">
-                <input type="tel" name="phone" class="form-control" id="phone" placeholder="Phone">
+                <input type="tel" name="phone" class="form-control" id="phone" placeholder="Phone" th:field="*{phone}">
                 <label for="phone">Phone</label>
             </div>
 <!--            <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>-->

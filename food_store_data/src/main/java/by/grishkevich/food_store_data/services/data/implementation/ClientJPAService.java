@@ -35,4 +35,9 @@ public class ClientJPAService implements ClientService {
         clientRepo.save(client);
         log.info("Client with email '" + client.getEmail() + "' registered");
     }
+
+    @Override
+    public boolean checkUserCredentials(String login, String password) {
+        return true;
+    }
 }

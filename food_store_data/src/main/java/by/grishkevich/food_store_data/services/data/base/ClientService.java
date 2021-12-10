@@ -6,4 +6,5 @@ public interface ClientService {
     Client findByEmail(String email);
     boolean isEmailExists(String email);
     void registerClient(Client client);
+    boolean checkUserCredentials(String login, String password);
 }
