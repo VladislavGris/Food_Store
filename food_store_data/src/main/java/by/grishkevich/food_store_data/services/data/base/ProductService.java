@@ -13,4 +13,8 @@ public interface ProductService {
     Iterable<Product> getProductsByCountry(Country country);
     Iterable<Product> getProductsByCategory(Category category);
     Optional<Product> getProductById(Long id);
+    Product save(Product product);
+    Product getById(Long id);
+    Product update(Product product, Long id);
+    void delete(Long id);
 }
