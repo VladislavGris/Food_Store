@@ -7,5 +7,5 @@ public interface TrademarkService {
     Trademark getById(Long id);
     Trademark update(Trademark updTrademark, Long id);
     Trademark save(Trademark trademark);
-    void delete(Trademark trademark);
+    void delete(Long id);
 }

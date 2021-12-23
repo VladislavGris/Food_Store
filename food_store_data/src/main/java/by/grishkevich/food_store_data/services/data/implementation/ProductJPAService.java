@@ -9,6 +9,7 @@ import by.grishkevich.food_store_data.services.data.base.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -42,7 +43,39 @@ public class ProductJPAService implements ProductService {
     }
 
     @Override
-    public Optional<Product> getProductById(Long id) {
-        return productRepository.findById(id);
+    public Product save(Product product) {
+        return productRepository.save(product);
+    }
+
+    @Override
+    public Product getById(Long id) {
+        try{
+            return productRepository.findById(id).get();
+        }catch (NoSuchElementException ex){
+            return null;
+        }
+
+    }
+
+    @Override
+    public Product update(Product updProduct, Long id) {
+        return productRepository.findById(id)
+                .map(product -> {
+                    product.setCategory(updProduct.getCategory());
+                    product.setCountry(updProduct.getCountry());
+                    product.setPrice(updProduct.getPrice());
+                    product.setImageRef(updProduct.getImageRef());
+                    product.setName(updProduct.getName());
+                    product.setTrademark(updProduct.getTrademark());
+                    return product;
+                }).orElseGet(() -> {
+                    updProduct.setId(id);
+                    return save(updProduct);
+                });
+    }
+
+    @Override
+    public void delete(Long id) {
+        productRepository.deleteById(id);
     }
 }
