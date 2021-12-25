@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,12 +20,11 @@ import java.util.Collection;
 @Table(name = "Users")
 public class Client extends Person{
 
-    @NotBlank(message = "Address can not be empty")
+    @NotEmpty(message = "Адрес является обязательным полем")
     @Column(name = "Address")
     private String address;
 
-    @NotBlank(message = "Phone can not be empty")
-
+    @NotBlank(message = "Телефон является обязательным полем")
     @Column(name = "Phone")
     private String phone;
 

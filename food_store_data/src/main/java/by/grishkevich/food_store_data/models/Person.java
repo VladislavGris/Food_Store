@@ -20,20 +20,24 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Person extends BaseEntity implements UserDetails {
-    @NotEmpty(message = "Name should not be empty")
-    @Size(min = 3, max = 30, message = "Name should be between 3 and 30 characters")
+
+    @NotEmpty(message = "Имя является обязательным")
+    @Size(min = 3, max = 30, message = "Имя должно быть в диапазоне от 3 до 30 символов")
     @Column(name = "Name")
     private String name;
-    @NotEmpty(message = "Surname should not be empty")
-    @Size(min = 3, max = 30, message = "Surname should be between 3 and 30 characters")
+
+    @NotEmpty(message = "Фамилия является обязательной")
+    @Size(min = 3, max = 30, message = "Фамилия должна быть в диапазоне от 3 до 30 символов")
     @Column(name = "Surname")
     private String surname;
-    @NotEmpty(message = "Email should not be empty")
-    @Email(message = "Email should be valid")
+
+    @NotEmpty(message = "Email является обязательным")
+    @Email(message = "Email должен быть корректным")
     @Column(name = "Email")
     private String email;
-    @NotEmpty(message = "Password should not be empty")
-    @Size(min = 5, max = 70, message = "Password should be between 5 and 70 characters")
+
+    @NotEmpty(message = "Пароль является обязательным")
+    @Size(min = 5, max = 70, message = "Пароль должен быть в диапазоне от 5 до 70 символов")
     @Column(name = "Password")
     private String password;
 

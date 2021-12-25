@@ -3,6 +3,7 @@ package by.grishkevich.food_store_data.models;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,9 +15,11 @@ import java.util.Set;
 @Table(name = "Orders")
 public class Order extends BaseEntity{
 
+    @NotEmpty(message = "Дата доставки является обязательной")
     @Column(name = "Date")
     private LocalDate date;
 
+    @NotEmpty(message = "Время доставки является обязательным")
     @Column(name = "Time")
     private LocalTime time;
 
