@@ -1,12 +1,11 @@
 package by.grishkevich.food_store_data.services.data.implementation;
 
+import by.grishkevich.food_store_data.exceptions.CountryNotFoundException;
 import by.grishkevich.food_store_data.models.Country;
 import by.grishkevich.food_store_data.repositories.CountryRepository;
 import by.grishkevich.food_store_data.services.data.base.Countryservice;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.NoSuchElementException;
 
 @Service
 @Slf4j
@@ -25,11 +24,8 @@ public class CountryJPAService implements Countryservice {
 
     @Override
     public Country getById(Long id) {
-        try{
-            return countryRepository.findById(id).get();
-        }catch (NoSuchElementException ex){
-            return null;
-        }
+        return countryRepository.findById(id)
+                .orElseThrow(() -> new CountryNotFoundException(id));
     }
 
     @Override
@@ -38,10 +34,8 @@ public class CountryJPAService implements Countryservice {
                 .map(country -> {
                     country.setName(updCountry.getName());
                     return country;
-                }).orElseGet(() -> {
-                    updCountry.setId(id);
-                    return updCountry;
-                });
+                })
+                .orElseThrow(() -> new CountryNotFoundException(id));
     }
 
     @Override

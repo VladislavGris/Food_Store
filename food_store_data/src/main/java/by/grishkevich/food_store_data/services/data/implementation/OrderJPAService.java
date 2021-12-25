@@ -1,12 +1,11 @@
 package by.grishkevich.food_store_data.services.data.implementation;
 
+import by.grishkevich.food_store_data.exceptions.OrderNotFoundException;
 import by.grishkevich.food_store_data.models.Order;
 import by.grishkevich.food_store_data.repositories.OrderRepository;
 import by.grishkevich.food_store_data.services.data.base.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.NoSuchElementException;
 
 @Service
 @Slf4j
@@ -25,11 +24,8 @@ public class OrderJPAService implements OrderService {
 
     @Override
     public Order getById(Long id) {
-        try{
-            return orderRepository.findById(id).get();
-        }catch (NoSuchElementException ex){
-            return null;
-        }
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException(id));
     }
 
     @Override
@@ -43,10 +39,8 @@ public class OrderJPAService implements OrderService {
                     order.setProducts(updOrder.getProducts());
                     order.setState(updOrder.getState());
                     return order;
-                }).orElseGet(() -> {
-                    updOrder.setId(id);
-                    return orderRepository.save(updOrder);
-                });
+                })
+                .orElseThrow(() -> new OrderNotFoundException(id));
     }
 
     @Override

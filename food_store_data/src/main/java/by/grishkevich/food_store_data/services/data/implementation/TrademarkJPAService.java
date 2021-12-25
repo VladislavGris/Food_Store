@@ -1,13 +1,11 @@
 package by.grishkevich.food_store_data.services.data.implementation;
 
+import by.grishkevich.food_store_data.exceptions.TrademarkNotFoundException;
 import by.grishkevich.food_store_data.models.Trademark;
 import by.grishkevich.food_store_data.repositories.TrademarkRepository;
 import by.grishkevich.food_store_data.services.data.base.TrademarkService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.NoSuchElementException;
-
 @Service
 @Slf4j
 public class TrademarkJPAService implements TrademarkService {
@@ -25,11 +23,8 @@ public class TrademarkJPAService implements TrademarkService {
 
     @Override
     public Trademark getById(Long id) {
-        try{
-            return trademarkRepository.findById(id).get();
-        }catch (NoSuchElementException ex){
-            return null;
-        }
+        return trademarkRepository.findById(id)
+                .orElseThrow(() -> new TrademarkNotFoundException(id));
     }
 
     @Override
@@ -38,10 +33,8 @@ public class TrademarkJPAService implements TrademarkService {
                 .map(trademark -> {
                     trademark.setName(updTrademark.getName());
                     return trademark;
-                }).orElseGet(() -> {
-                    updTrademark.setId(id);
-                    return trademarkRepository.save(updTrademark);
-                });
+                })
+                .orElseThrow(() -> new TrademarkNotFoundException(id));
     }
 
     @Override

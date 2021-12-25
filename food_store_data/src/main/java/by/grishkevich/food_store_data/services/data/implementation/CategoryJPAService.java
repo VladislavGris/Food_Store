@@ -1,12 +1,11 @@
 package by.grishkevich.food_store_data.services.data.implementation;
 
+import by.grishkevich.food_store_data.exceptions.CategoryNotFoundException;
 import by.grishkevich.food_store_data.models.Category;
 import by.grishkevich.food_store_data.repositories.CategoryRepository;
 import by.grishkevich.food_store_data.services.data.base.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.NoSuchElementException;
 
 @Service
 @Slf4j
@@ -25,12 +24,8 @@ public class CategoryJPAService implements CategoryService {
 
     @Override
     public Category getById(Long id) {
-        try{
-            return categoryRepository.findById(id).get();
-        }catch (NoSuchElementException ex){
-            return null;
-        }
-
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException(id));
     }
 
     @Override
@@ -39,10 +34,8 @@ public class CategoryJPAService implements CategoryService {
                 .map(category -> {
                     category.setName(updCategory.getName());
                     return category;
-                }).orElseGet(() -> {
-                    updCategory.setId(id);
-                    return save(updCategory);
-                });
+                })
+                .orElseThrow(() -> new CategoryNotFoundException(id));
     }
 
     @Override

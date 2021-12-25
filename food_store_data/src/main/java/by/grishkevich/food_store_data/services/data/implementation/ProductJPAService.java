@@ -1,5 +1,6 @@
 package by.grishkevich.food_store_data.services.data.implementation;
 
+import by.grishkevich.food_store_data.exceptions.ProductNotFoundException;
 import by.grishkevich.food_store_data.models.Category;
 import by.grishkevich.food_store_data.models.Country;
 import by.grishkevich.food_store_data.models.Product;
@@ -8,9 +9,6 @@ import by.grishkevich.food_store_data.repositories.ProductRepository;
 import by.grishkevich.food_store_data.services.data.base.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -49,12 +47,8 @@ public class ProductJPAService implements ProductService {
 
     @Override
     public Product getById(Long id) {
-        try{
-            return productRepository.findById(id).get();
-        }catch (NoSuchElementException ex){
-            return null;
-        }
-
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     @Override
@@ -68,10 +62,8 @@ public class ProductJPAService implements ProductService {
                     product.setName(updProduct.getName());
                     product.setTrademark(updProduct.getTrademark());
                     return product;
-                }).orElseGet(() -> {
-                    updProduct.setId(id);
-                    return save(updProduct);
-                });
+                })
+                .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     @Override
