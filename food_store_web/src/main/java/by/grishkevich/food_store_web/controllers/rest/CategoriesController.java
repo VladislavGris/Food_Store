@@ -4,6 +4,8 @@ import by.grishkevich.food_store_data.models.Category;
 import by.grishkevich.food_store_data.services.data.implementation.CategoryJPAService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping("api/categories")
@@ -26,12 +28,12 @@ public class CategoriesController {
     }
 
     @PostMapping
-    public Category newCategory(@RequestBody Category category){
+    public Category newCategory(@Valid @RequestBody Category category){
         return categoryService.save(category);
     }
 
     @PutMapping("/{id}")
-    public Category getCategory(@RequestBody Category category, @PathVariable Long id){
+    public Category getCategory(@Valid @RequestBody Category category, @PathVariable Long id){
         return categoryService.update(category,id);
     }
 

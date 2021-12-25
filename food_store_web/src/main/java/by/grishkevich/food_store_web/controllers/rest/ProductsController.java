@@ -4,6 +4,8 @@ import by.grishkevich.food_store_data.models.Product;
 import by.grishkevich.food_store_data.services.data.implementation.ProductJPAService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping("api/products")
@@ -21,7 +23,7 @@ public class ProductsController {
     }
 
     @PostMapping
-    public Product newProduct(@RequestBody Product newProduct){
+    public Product newProduct(@Valid @RequestBody Product newProduct){
         return productService.save(newProduct);
     }
 
@@ -31,7 +33,7 @@ public class ProductsController {
     }
 
     @PutMapping("/{id}")
-    public  Product updateProduct(@RequestBody Product updatedProduct, @PathVariable Long id){
+    public  Product updateProduct(@Valid @RequestBody Product updatedProduct, @PathVariable Long id){
         return productService.update(updatedProduct,id);
     }
 

@@ -3,6 +3,7 @@ package by.grishkevich.food_store_web.controllers.rest;
 import by.grishkevich.food_store_data.models.Country;
 import by.grishkevich.food_store_data.services.data.implementation.CountryJPAService;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
@@ -26,12 +27,12 @@ public class CountriesController {
     }
 
     @PostMapping
-    public Country newCountry(@RequestBody Country country){
+    public Country newCountry(@Valid @RequestBody Country country){
         return countryService.save(country);
     }
 
     @PutMapping("/{id}")
-    public Country updateCountry(@RequestBody Country country, @PathVariable Long id){
+    public Country updateCountry(@Valid @RequestBody Country country, @PathVariable Long id){
         return countryService.update(country,id);
     }
 

@@ -4,6 +4,8 @@ import by.grishkevich.food_store_data.models.Trademark;
 import by.grishkevich.food_store_data.services.data.implementation.TrademarkJPAService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping("api/trademarks")
@@ -26,12 +28,12 @@ public class TrademarksController {
     }
 
     @PostMapping
-    public Trademark newTrademark(@RequestBody Trademark trademark){
+    public Trademark newTrademark(@Valid @RequestBody Trademark trademark){
         return trademarkService.save(trademark);
     }
 
     @PutMapping("/{id}")
-    public Trademark updateTrademark(@RequestBody Trademark trademark, @PathVariable Long id){
+    public Trademark updateTrademark(@Valid @RequestBody Trademark trademark, @PathVariable Long id){
         return trademarkService.update(trademark,id);
     }
 
