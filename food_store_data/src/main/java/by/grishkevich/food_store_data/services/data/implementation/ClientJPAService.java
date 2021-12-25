@@ -1,6 +1,7 @@
 package by.grishkevich.food_store_data.services.data.implementation;
 
 import by.grishkevich.food_store_data.exceptions.UserAlreadyExistsException;
+import by.grishkevich.food_store_data.exceptions.UserNotFoundException;
 import by.grishkevich.food_store_data.models.Client;
 import by.grishkevich.food_store_data.repositories.ClientRepository;
 import by.grishkevich.food_store_data.services.data.base.ClientService;
@@ -40,5 +41,13 @@ public class ClientJPAService implements ClientService {
             throw new UserAlreadyExistsException(client.getEmail());
         client.setPassword(passwordEncoder.encode(client.getPassword()));
         return clientRepo.save(client);
+    }
+
+    @Override
+    public Client findByLoginAndPassword(String login, String password) {
+        Client client = clientRepo.findByEmailAndPassword(login, passwordEncoder.encode(password));
+        if(client == null)
+            throw new UserNotFoundException("Логин или пароль указаны неверно");
+        return client;
     }
 }
