@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Arrays;
 import java.util.Collection;
 
 @Data
@@ -41,17 +43,21 @@ public class Person extends BaseEntity implements UserDetails {
     @Column(name = "Password")
     private String password;
 
+    @Column(name = "Role")
+    private String role;
+
     public Person(Long id, String name, String surname, String email, String password){
         super(id);
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
+        this.role = "ROLE_USER";
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Arrays.asList(new SimpleGrantedAuthority(role));
     }
 
     @Override

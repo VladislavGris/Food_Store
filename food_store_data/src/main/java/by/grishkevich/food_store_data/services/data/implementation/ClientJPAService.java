@@ -1,23 +1,22 @@
 package by.grishkevich.food_store_data.services.data.implementation;
 
+import by.grishkevich.food_store_data.exceptions.UserAlreadyExistsException;
 import by.grishkevich.food_store_data.models.Client;
 import by.grishkevich.food_store_data.repositories.ClientRepository;
 import by.grishkevich.food_store_data.services.data.base.ClientService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 public class ClientJPAService implements ClientService {
     private final ClientRepository clientRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    public ClientJPAService(ClientRepository clientRepo){
+    public ClientJPAService(ClientRepository clientRepo, PasswordEncoder passwordEncoder){
         this.clientRepo = clientRepo;
-    }
-
-    @Override
-    public Client findByEmail(String email) {
-        return clientRepo.findByEmail(email);
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -31,13 +30,15 @@ public class ClientJPAService implements ClientService {
     }
 
     @Override
-    public void registerClient(Client client) {
-        clientRepo.save(client);
-        log.info("Client with email '" + client.getEmail() + "' registered");
+    public boolean checkUserCredentials(String login, String password) {
+        return true;
     }
 
     @Override
-    public boolean checkUserCredentials(String login, String password) {
-        return true;
+    public Client save(Client client) {
+        if(isEmailExists(client.getEmail()))
+            throw new UserAlreadyExistsException(client.getEmail());
+        client.setPassword(passwordEncoder.encode(client.getPassword()));
+        return clientRepo.save(client);
     }
 }

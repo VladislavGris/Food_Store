@@ -28,13 +28,8 @@ public class Client extends Person{
     @Column(name = "Phone")
     private String phone;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
-    }
-
     public Client(String name, String surname, String email, String password, String address, String phone){
-        super(name, surname, email, password);
+        super(name, surname, email, password, "ROLE_USER");
         this.address = address;
         this.phone = phone;
     }
