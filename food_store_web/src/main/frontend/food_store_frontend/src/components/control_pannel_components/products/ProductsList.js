@@ -17,6 +17,20 @@ class ProductsList extends React.Component {
       .then((data) => this.setState({ products: data }));
   }
 
+  deleteProduct = (productId) => {
+    axios
+      .delete("http://localhost:8080/api/products/" + productId)
+      .then((response) => {
+        if (response.data != null) {
+          this.setState({
+            products: this.state.products.filter(
+              (product) => product.id !== productId
+            ),
+          });
+        }
+      });
+  };
+
   render() {
     return (
       <div>
@@ -66,7 +80,14 @@ class ProductsList extends React.Component {
                             <Button size="sm" variant="outline-primary">
                               <FontAwesomeIcon icon={faEdit} />
                             </Button>
-                            <Button size="sm" variant="outline-danger">
+                            <Button
+                              size="sm"
+                              variant="outline-danger"
+                              onClick={this.deleteProduct.bind(
+                                this,
+                                product.id
+                              )}
+                            >
                               <FontAwesomeIcon icon={faTrash} />
                             </Button>
                           </ButtonGroup>

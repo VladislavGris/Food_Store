@@ -42,7 +42,6 @@ class AddProduct extends React.Component {
       .post("http://localhost:8080/api/products", product)
       .then((response) => response.data)
       .then((data) => {
-        alert(data);
         this.state = this.initialState;
       });
   }
