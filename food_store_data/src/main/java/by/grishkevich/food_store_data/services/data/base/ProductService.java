@@ -13,6 +13,7 @@ public interface ProductService {
     Iterable<Product> getProductsByCountry(Country country);
     Iterable<Product> getProductsByCategory(Category category);
     Product save(Product product);
+    Product save(String name, double price, String country, String category, String trademark, String imageRef);
     Product getById(Long id);
     Product update(Product product, Long id);
     void delete(Long id);

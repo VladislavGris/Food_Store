@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TrademarkRepository extends CrudRepository<Trademark, Long> {
+    Trademark findByName(String name);
 }

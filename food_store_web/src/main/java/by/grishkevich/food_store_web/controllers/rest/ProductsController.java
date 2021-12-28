@@ -2,6 +2,7 @@ package by.grishkevich.food_store_web.controllers.rest;
 
 import by.grishkevich.food_store_data.models.Product;
 import by.grishkevich.food_store_data.services.data.implementation.ProductJPAService;
+import by.grishkevich.food_store_web.requests.ProductRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,8 +24,9 @@ public class ProductsController {
     }
 
     @PostMapping
-    public Product newProduct(@Valid @RequestBody Product newProduct){
-        return productService.save(newProduct);
+    public Product newProduct(@RequestBody ProductRequest newProduct){
+
+        return productService.save(newProduct.getName(), newProduct.getPrice(), newProduct.getCountry(), newProduct.getCategory(), newProduct.getTrademark(), newProduct.getImageRef());
     }
 
     @GetMapping("/{id}")

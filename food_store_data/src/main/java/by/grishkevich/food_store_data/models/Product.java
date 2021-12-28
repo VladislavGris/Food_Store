@@ -1,6 +1,8 @@
 package by.grishkevich.food_store_data.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
@@ -9,6 +11,8 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @Entity
 @Table(name = "Products")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product extends BaseEntity {
 
     @NotEmpty(message = "Название продукта является обязательным")

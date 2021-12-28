@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CountryRepository extends CrudRepository<Country, Long> {
+    Country findByName(String name);
 }

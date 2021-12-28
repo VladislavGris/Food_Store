@@ -24,9 +24,14 @@ class ProductsList extends React.Component {
           <Card className={"border border-dark bg-dark text-white"}>
             <Card.Header>
               Список продуктов{" "}
-              <Link to={"/control"}>Назад к панели управления</Link>
+              <Link to={"/control"}>Назад к панели управления </Link>
               <Button size="sm" variant="success">
-                Добавить продукт
+                <Link
+                  to={"add_product"}
+                  style={{ textDecoration: "none", color: "white" }}
+                >
+                  Добавить продукт
+                </Link>
               </Button>
             </Card.Header>
             <Card.Body>
