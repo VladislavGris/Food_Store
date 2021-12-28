@@ -15,6 +15,7 @@ import UsersList from "./components/control_pannel_components/users/UsersList";
 import ProductsList from "./components/control_pannel_components/products/ProductsList";
 import OrdersList from "./components/control_pannel_components/orders/OrdersList";
 import AddProduct from "./components/control_pannel_components/products/AddProduct";
+import UpdateProduct from "./components/control_pannel_components/products/UpdateProduct";
 function App() {
   const marginTop = {
     marginTop: "40px",
@@ -57,6 +58,11 @@ function App() {
                 exact
                 path="/control/products/add_product"
                 element={<AddProduct />}
+              />
+              <Route
+                exact
+                path="/control/products/update/:id"
+                element={<UpdateProduct />}
               />
             </Routes>
           </Col>

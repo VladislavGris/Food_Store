@@ -77,9 +77,12 @@ class ProductsList extends React.Component {
                         <td>{product.category.name}</td>
                         <td>
                           <ButtonGroup>
-                            <Button size="sm" variant="outline-primary">
+                            <Link
+                              to={"update/" + product.id}
+                              className="btn btn-sm btn-outline-primary"
+                            >
                               <FontAwesomeIcon icon={faEdit} />
-                            </Button>
+                            </Link>
                             <Button
                               size="sm"
                               variant="outline-danger"
