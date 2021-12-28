@@ -7,4 +7,5 @@ public interface ClientService {
     boolean checkUserCredentials(String login, String password);
     Client save(Client client);
     Client findByLoginAndPassword(String login, String password);
+    Client findByEmail(String email);
 }
