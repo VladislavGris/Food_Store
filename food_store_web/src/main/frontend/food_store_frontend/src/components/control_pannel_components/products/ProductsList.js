@@ -25,6 +25,9 @@ class ProductsList extends React.Component {
             <Card.Header>
               Список продуктов{" "}
               <Link to={"/control"}>Назад к панели управления</Link>
+              <Button size="sm" variant="success">
+                Добавить продукт
+              </Button>
             </Card.Header>
             <Card.Body>
               <Table bordered hover striped variant="dark">
