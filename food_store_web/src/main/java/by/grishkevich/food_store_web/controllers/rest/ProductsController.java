@@ -3,6 +3,8 @@ package by.grishkevich.food_store_web.controllers.rest;
 import by.grishkevich.food_store_data.models.Product;
 import by.grishkevich.food_store_data.services.data.implementation.ProductJPAService;
 import by.grishkevich.food_store_web.requests.ProductRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,8 +21,8 @@ public class ProductsController {
     }
 
     @GetMapping
-    public Iterable<Product> getProducts(){
-        return productService.getAllProducts();
+    public Page<Product> getProducts(Pageable pageable){
+        return productService.getAllProducts(pageable);
     }
 
     @PostMapping

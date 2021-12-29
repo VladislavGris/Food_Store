@@ -12,6 +12,8 @@ import by.grishkevich.food_store_data.repositories.ProductRepository;
 import by.grishkevich.food_store_data.repositories.TrademarkRepository;
 import by.grishkevich.food_store_data.services.data.base.ProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,8 +33,8 @@ public class ProductJPAService implements ProductService {
     }
 
     @Override
-    public Iterable<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
     @Override
