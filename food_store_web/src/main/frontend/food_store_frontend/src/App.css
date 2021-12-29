@@ -40,3 +40,8 @@
 .card-background {
   background-color: #282c34 !important;
 }
+
+.image-size {
+  height: 15em;
+  width: 15em;
+}

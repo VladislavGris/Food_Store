@@ -4,6 +4,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import AuthHeader from "../../../services/AuthHeader.js";
 class CategoriesList extends React.Component {
   constructor(props) {
     super(props);
@@ -11,8 +12,9 @@ class CategoriesList extends React.Component {
   }
 
   componentDidMount() {
+    console.log(AuthHeader());
     axios
-      .get("http://localhost:8080/api/categories")
+      .get("http://localhost:8080/api/categories", { headers: AuthHeader() })
       .then((response) => response.data)
       .then((data) => this.setState({ categories: data }));
   }

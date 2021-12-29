@@ -4,10 +4,14 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import authHeader from "../services/AuthHeader";
+import MyToast from "./MyToast.js";
 class Cart extends React.Component {
   constructor(props) {
     super(props);
     this.state = { products: [], date: "", time: "" };
+    this.state.show = false;
+    this.state.message = "Заказ сохранен";
     this.processOrder = this.processOrder.bind(this);
     this.formChange = this.formChange.bind(this);
   }
@@ -49,9 +53,21 @@ class Cart extends React.Component {
       client: JSON.parse(localStorage.getItem("user")).clientId,
       products: this.state.products,
     };
-    axios.post("http://localhost:8080/api/orders", order);
-    this.setState(this.initalState);
-    localStorage.setItem("cart", JSON.stringify(this.state.products));
+    axios
+      .post("http://localhost:8080/api/orders", order, {
+        headers: authHeader(),
+      })
+      .then((response) => {
+        if (response.data != null) {
+          this.setState({
+            show: true,
+            message: "Заказ сохранен",
+          });
+          setTimeout(() => this.setState({ show: false }), 3000);
+          this.setState(this.initalState);
+          localStorage.setItem("cart", JSON.stringify(this.state.products));
+        }
+      });
   }
 
   formChange(event) {
@@ -65,6 +81,14 @@ class Cart extends React.Component {
   render() {
     return (
       <div>
+        <div>
+          <MyToast
+            children={{
+              show: this.state.show,
+              message: this.state.message,
+            }}
+          />
+        </div>
         <Row>
           <Card className={"border border-dark bg-dark text-white"}>
             <Card.Header>

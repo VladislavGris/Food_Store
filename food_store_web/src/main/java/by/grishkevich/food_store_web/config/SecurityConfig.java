@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -42,16 +43,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
+        http.cors().disable();
         http
                 .httpBasic().disable()
-                .cors().disable()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/abcd").hasRole("USER")
-                .antMatchers("/api/rofl").hasRole("ADMIN")
-                .antMatchers("/api/docs", "/login", "/registration", "/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/products", "/api/orders",
+                        "/api/countries", "/api/categories", "/api/trademarks",
+                        "/api/products/*", "/api/orders/*","/api/countries/*",
+                        "/api/categories/*","/api/trademarks/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/products", "/api/orders",
+                        "/api/countries", "/api/categories", "/api/trademarks").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/products/*", "/api/orders/*","/api/countries/*",
+                        "/api/categories/*","/api/trademarks/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/products/**", "/api/orders/*","/api/countries/*",
+                        "/api/categories/*","/api/trademarks/*").hasRole("ADMIN")
+                //.antMatchers(HttpMethod.GET, "/api/products", "/api/orders").hasRole("USER")
+                //.antMatchers(HttpMethod.POST, "/api/orders").hasRole("USER")
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
+                .antMatchers(HttpMethod.GET,"/api/products", "/api/orders").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/orders","/register").permitAll()
+                .antMatchers("/api/docs", "/login", "/register", "/api/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -64,6 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

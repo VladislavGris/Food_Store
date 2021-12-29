@@ -4,6 +4,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import AuthHeader from "../../../services/AuthHeader.js";
 class CountriesList extends React.Component {
   constructor(props) {
     super(props);
@@ -12,7 +13,7 @@ class CountriesList extends React.Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:8080/api/countries")
+      .get("http://localhost:8080/api/countries", { headers: AuthHeader() })
       .then((response) => response.data)
       .then((data) => this.setState({ countries: data }));
   }

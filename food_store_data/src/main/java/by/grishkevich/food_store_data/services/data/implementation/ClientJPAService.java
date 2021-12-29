@@ -46,6 +46,8 @@ public class ClientJPAService implements ClientService {
     @Override
     public Client findByLoginAndPassword(String login, String password) {
         Client fundClient = findByEmail(login);
+        if(fundClient == null)
+            throw new UserNotFoundException("Пользователя с данным именем пользователя не существует");
         if(!passwordEncoder.matches(password, fundClient.getPassword()))
             throw new UserNotFoundException("Логин или пароль указаны неверно");
         return fundClient;

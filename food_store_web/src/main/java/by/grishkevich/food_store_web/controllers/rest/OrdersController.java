@@ -32,10 +32,10 @@ public class OrdersController {
 
     @PostMapping
     public void newOrder(@RequestBody OrderRequest order){
-        log.error(order.getDate().toString());
-        log.error(order.getTime().toString());
-        log.error(order.getClient().toString());
-        log.error(order.getProducts().toString());
+        log.info(order.getDate().toString());
+        log.info(order.getTime().toString());
+        log.info(order.getClient().toString());
+        log.info(order.getProducts().toString());
         orderService.processOrder(order.getDate(),order.getTime(),order.getClient(),order.getProducts());
     }
 

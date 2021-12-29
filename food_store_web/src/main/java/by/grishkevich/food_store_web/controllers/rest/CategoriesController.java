@@ -2,6 +2,7 @@ package by.grishkevich.food_store_web.controllers.rest;
 
 import by.grishkevich.food_store_data.models.Category;
 import by.grishkevich.food_store_data.services.data.implementation.CategoryJPAService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -9,6 +10,7 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping("api/categories")
+@Slf4j
 public class CategoriesController {
 
     private CategoryJPAService categoryService;
@@ -19,16 +21,19 @@ public class CategoriesController {
 
     @GetMapping
     public Iterable<Category> getCategories(){
+        log.info("CategoriesController::getCategories");
         return categoryService.getAllCategories();
     }
 
     @GetMapping("/{id}")
     public Category getCategory(@PathVariable Long id){
+        log.info("CategoriesController::getCategory");
         return  categoryService.getById(id);
     }
 
     @PostMapping
     public Category newCategory(@Valid @RequestBody Category category){
+        log.info("CategoriesController::getCategory");
         return categoryService.save(category);
     }
 

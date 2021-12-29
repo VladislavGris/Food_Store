@@ -9,10 +9,10 @@ class Market extends React.Component {
       <div>
         <NavigationBar />
         <Row>
-          <Col lg={3}>
+          {/* <Col lg={0}>
             <Filters />
-          </Col>
-          <Col lg={9}>
+          </Col> */}
+          <Col lg={12}>
             <ProductList />
           </Col>
         </Row>

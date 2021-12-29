@@ -4,6 +4,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import AuthHeader from "../../../services/AuthHeader.js";
 class OrdersList extends React.Component {
   constructor(props) {
     super(props);
@@ -12,7 +13,7 @@ class OrdersList extends React.Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:8080/api/orders")
+      .get("http://localhost:8080/api/orders", { headers: AuthHeader() })
       .then((response) => response.data)
       .then((data) => {
         this.setState({ orders: data });

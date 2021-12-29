@@ -2,6 +2,7 @@ import React from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import AuthHeader from "../../../services/AuthHeader.js";
 class UpdateProduct extends React.Component {
   constructor(props) {
     super(props);
@@ -34,7 +35,9 @@ class UpdateProduct extends React.Component {
       imageRef: this.state.imageRef,
     };
     axios
-      .post("http://localhost:8080/api/products", product)
+      .post("http://localhost:8080/api/products", product, {
+        headers: AuthHeader(),
+      })
       .then((response) => response.data)
       .then((data) => {
         this.state = this.initialState;
@@ -49,19 +52,19 @@ class UpdateProduct extends React.Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:8080/api/categories")
+      .get("http://localhost:8080/api/categories", { headers: AuthHeader() })
       .then((response) => response.data)
       .then((data) =>
         this.setState({ categories: data, category: data[0].name })
       );
     axios
-      .get("http://localhost:8080/api/countries")
+      .get("http://localhost:8080/api/countries", { headers: AuthHeader() })
       .then((response) => response.data)
       .then((data) =>
         this.setState({ countries: data, country: data[0].name })
       );
     axios
-      .get("http://localhost:8080/api/trademarks")
+      .get("http://localhost:8080/api/trademarks", { headers: AuthHeader() })
       .then((response) => response.data)
       .then((data) =>
         this.setState({ trademarks: data, trademark: data[0].name })

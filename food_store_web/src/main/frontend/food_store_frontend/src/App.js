@@ -21,12 +21,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { cart: [] };
-    this.updateCart = this.updateCart.bind(this);
-  }
-
-  updateCart(cart) {
-    this.state.cart = { cart: cart };
-    console.log(cart);
   }
 
   render() {
@@ -42,11 +36,7 @@ class App extends React.Component {
                 <Route exact path="/" element={<Welcome />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route
-                  exact
-                  path="/market"
-                  element={<Market updateCart={this.updateCart} />}
-                />
+                <Route exact path="/market" element={<Market />} />
                 <Route exact path="/control" element={<ControlPannel />} />
                 <Route
                   exact

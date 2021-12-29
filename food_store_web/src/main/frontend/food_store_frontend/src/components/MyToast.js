@@ -19,7 +19,7 @@ export default class MyToast extends Component {
           show={this.props.children.show}
         >
           <Toast.Header className={"bg-success text-white"} closeButton={false}>
-            <strong className="mr-auto">Success</strong>
+            <strong className="mr-auto">Уведомление</strong>
           </Toast.Header>
           <Toast.Body>{this.props.children.message}</Toast.Body>
         </Toast>

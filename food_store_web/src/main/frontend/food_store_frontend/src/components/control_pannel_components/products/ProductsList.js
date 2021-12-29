@@ -4,6 +4,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import AuthHeader from "../../../services/AuthHeader.js";
 class ProductsList extends React.Component {
   constructor(props) {
     super(props);
@@ -12,14 +13,16 @@ class ProductsList extends React.Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:8080/api/products")
+      .get("http://localhost:8080/api/products", { headers: AuthHeader() })
       .then((response) => response.data)
       .then((data) => this.setState({ products: data }));
   }
 
   deleteProduct = (productId) => {
     axios
-      .delete("http://localhost:8080/api/products/" + productId)
+      .delete("http://localhost:8080/api/products/" + productId, {
+        headers: AuthHeader(),
+      })
       .then((response) => {
         if (response.data != null) {
           this.setState({

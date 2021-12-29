@@ -25,12 +25,13 @@ public class AuthController {
 
     @PostMapping("register")
     public Client registerUser(@Valid @RequestBody Client client){
+        log.info("AuthController::registerUser");
         return clientService.save(client);
     }
 
     @PostMapping("login")
     public AuthResponse authUser(@RequestBody Client client){
-        log.error("POST");
+        log.info("AuthController::authUser");
         Client authClient = clientService.findByLoginAndPassword(client.getEmail(), client.getPassword());
         String token = jwtProvider.generateToken(authClient.getEmail());
 
