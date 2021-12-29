@@ -8,7 +8,7 @@ import MyToast from "./MyToast.js";
 class ProductList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { products: [], cart: [] };
+    this.state = { products: [], cart: [], productsPerPage: 9, currentPage: 1 };
     this.state.show = false;
     this.state.message = "Message";
     this.addToCart = this.addToCart.bind(this);
@@ -16,10 +16,20 @@ class ProductList extends React.Component {
 
   componentDidMount() {
     console.log(authHeader());
+    this.findAll(this.state.currentPage);
+  }
+
+  findAll(currentPage) {
+    currentPage -= 1;
     axios
-      .get("http://localhost:8080/api/products", { headers: authHeader() })
+      .get(
+        `http://localhost:8080/api/products?page=${currentPage}&size=${this.state.productsPerPage}`,
+        {
+          headers: authHeader(),
+        }
+      )
       .then((response) => response.data)
-      .then((data) => this.setState({ products: data }));
+      .then((data) => this.setState({ products: data.content }));
     console.log(JSON.parse(localStorage.getItem("cart")));
     if (JSON.parse(localStorage.getItem("cart")) !== null) {
       this.setState({
