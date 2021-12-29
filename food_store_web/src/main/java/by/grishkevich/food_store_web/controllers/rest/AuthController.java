@@ -12,6 +12,7 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/")
+@CrossOrigin(origins = "http://localhost:3000/")
 public class AuthController {
 
     private ClientService clientService;
@@ -33,6 +34,6 @@ public class AuthController {
         Client authClient = clientService.findByLoginAndPassword(client.getEmail(), client.getPassword());
         String token = jwtProvider.generateToken(authClient.getEmail());
 
-        return new AuthResponse(token,client);
+        return new AuthResponse(token,authClient.getId(),authClient.getRole());
     }
 }

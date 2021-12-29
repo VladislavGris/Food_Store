@@ -32,7 +32,7 @@ class CountriesList extends React.Component {
                   <tr>
                     <th>Id</th>
                     <th>Страна</th>
-                    <th>Операции</th>
+                    {/* <th>Операции</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -45,7 +45,7 @@ class CountriesList extends React.Component {
                       <tr key={country.id}>
                         <td>{country.id}</td>
                         <td>{country.name}</td>
-                        <td>
+                        {/* <td>
                           <ButtonGroup>
                             <Button size="sm" variant="outline-primary">
                               <FontAwesomeIcon icon={faEdit} />
@@ -54,7 +54,7 @@ class CountriesList extends React.Component {
                               <FontAwesomeIcon icon={faTrash} />
                             </Button>
                           </ButtonGroup>
-                        </td>
+                        </td> */}
                       </tr>
                     ))
                   )}

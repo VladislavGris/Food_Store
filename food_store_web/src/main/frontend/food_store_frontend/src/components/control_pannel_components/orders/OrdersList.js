@@ -40,7 +40,7 @@ class OrdersList extends React.Component {
                     <th>Состояние</th>
                     <th>Клиент</th>
                     <th>Заказанные товары</th>
-                    <th>Операции</th>
+                    {/* <th>Операции</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -64,7 +64,7 @@ class OrdersList extends React.Component {
                             </div>
                           ))}
                         </td>
-                        <td>
+                        {/* <td>
                           <ButtonGroup>
                             <Button size="sm" variant="outline-primary">
                               <FontAwesomeIcon icon={faEdit} />
@@ -73,7 +73,7 @@ class OrdersList extends React.Component {
                               <FontAwesomeIcon icon={faTrash} />
                             </Button>
                           </ButtonGroup>
-                        </td>
+                        </td> */}
                       </tr>
                     ))
                   )}

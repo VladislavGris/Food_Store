@@ -8,5 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class AuthResponse {
     private String token;
-    private Client client;
+    private Long clientId;
+    private String clientRole;
 }

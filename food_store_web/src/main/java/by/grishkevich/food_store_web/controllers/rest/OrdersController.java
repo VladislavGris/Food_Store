@@ -2,10 +2,13 @@ package by.grishkevich.food_store_web.controllers.rest;
 
 import by.grishkevich.food_store_data.models.Order;
 import by.grishkevich.food_store_data.services.data.implementation.OrderJPAService;
+import by.grishkevich.food_store_web.requests.OrderRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Slf4j
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping("api/orders")
@@ -28,8 +31,12 @@ public class OrdersController {
     }
 
     @PostMapping
-    public Order newOrder(@Valid @RequestBody Order order){
-        return orderService.save(order);
+    public void newOrder(@RequestBody OrderRequest order){
+        log.error(order.getDate().toString());
+        log.error(order.getTime().toString());
+        log.error(order.getClient().toString());
+        log.error(order.getProducts().toString());
+        orderService.processOrder(order.getDate(),order.getTime(),order.getClient(),order.getProducts());
     }
 
     @PutMapping("/{id}")

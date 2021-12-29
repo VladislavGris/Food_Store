@@ -33,7 +33,7 @@ class CategoriesList extends React.Component {
                   <tr>
                     <th>Id</th>
                     <th>Категория</th>
-                    <th>Операции</th>
+                    {/* <th>Операции</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -46,7 +46,7 @@ class CategoriesList extends React.Component {
                       <tr key={category.id}>
                         <td>{category.id}</td>
                         <td>{category.name}</td>
-                        <td>
+                        {/* <td>
                           <ButtonGroup>
                             <Button size="sm" variant="outline-primary">
                               <FontAwesomeIcon icon={faEdit} />
@@ -55,7 +55,7 @@ class CategoriesList extends React.Component {
                               <FontAwesomeIcon icon={faTrash} />
                             </Button>
                           </ButtonGroup>
-                        </td>
+                        </td> */}
                       </tr>
                     ))
                   )}

@@ -1,9 +1,15 @@
 import React, { Component } from "react";
 
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
+import AuthService from "../services/AuthService";
 export default class NavigationBar extends Component {
+  logout() {
+    AuthService.logout();
+    localStorage.removeItem("cart");
+    console.log("logout");
+  }
+
   render() {
     return (
       <Navbar bg="dark" variant="dark">
@@ -17,6 +23,11 @@ export default class NavigationBar extends Component {
           <Link to={"/cart"} className="nav-link">
             Корзина
           </Link>
+          <Button onClick={this.logout} size="sm">
+            <Link to={"/"} className="nav-link">
+              Выход
+            </Link>
+          </Button>
         </Nav>
       </Navbar>
     );

@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Card, Table, ButtonGroup, Button } from "react-bootstrap";
+import { Row, Card, Table, ButtonGroup, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -7,22 +7,60 @@ import { Link } from "react-router-dom";
 class Cart extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { products: [] };
+    this.state = { products: [], date: "", time: "" };
+    this.processOrder = this.processOrder.bind(this);
+    this.formChange = this.formChange.bind(this);
   }
 
   componentDidMount() {
-    this.setState({
-      products: JSON.parse(localStorage.getItem("cart")),
-    });
+    console.log(JSON.parse(localStorage.getItem("cart")));
+    if (JSON.parse(localStorage.getItem("cart") !== null)) {
+      this.setState({
+        products: JSON.parse(localStorage.getItem("cart")),
+        date: "",
+        time: "",
+      });
+    }
   }
 
-  deleteProduct = (productId) => {
-    this.setState({
-      products: this.state.products.filter(
-        (product) => product.id !== productId
-      ),
-    });
+  initalState = {
+    products: [],
+    date: "",
+    time: "",
   };
+
+  deleteProduct = (productId) => {
+    let products = this.state.products;
+    products.splice(
+      products.findIndex((e) => e.id === productId),
+      1
+    );
+    this.setState({
+      products: products,
+    });
+    localStorage.setItem("cart", JSON.stringify(this.state.products));
+  };
+
+  processOrder(event) {
+    event.preventDefault();
+    let order = {
+      date: this.state.date,
+      time: this.state.time,
+      client: JSON.parse(localStorage.getItem("user")).clientId,
+      products: this.state.products,
+    };
+    axios.post("http://localhost:8080/api/orders", order);
+    this.setState(this.initalState);
+    localStorage.setItem("cart", JSON.stringify(this.state.products));
+  }
+
+  formChange(event) {
+    console.log(event.target.name);
+    console.log(event.target.value);
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
 
   render() {
     return (
@@ -34,9 +72,6 @@ class Cart extends React.Component {
               <Link to={"/market"} className="btn btn-sm btn-outline-primary">
                 Назад к каталогу
               </Link>
-              <Button size="sm" variant="outline-danger">
-                Оформить заказ
-              </Button>
             </Card.Header>
             <Card.Body>
               <Table bordered hover striped variant="dark">
@@ -85,6 +120,42 @@ class Cart extends React.Component {
             </Card.Body>
           </Card>
         </Row>
+        <div>
+          <Form
+            id="orderForm"
+            className="text-white"
+            onSubmit={this.processOrder}
+          >
+            <Form.Group className="mb-1" controlId="date">
+              <Form.Label>Дата доставки</Form.Label>
+              <Form.Control
+                required
+                type="date"
+                name="date"
+                value={this.state.date}
+                onChange={this.formChange}
+                placeholder="Укажите дату доставки"
+                className={"bg-dark text-white"}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-1" controlId="time">
+              <Form.Label>Пароль</Form.Label>
+              <Form.Control
+                required
+                type="time"
+                name="time"
+                value={this.state.time}
+                onChange={this.formChange}
+                placeholder="Укажите время доставки"
+                className={"bg-dark text-white"}
+              />
+            </Form.Group>
+            <Button size="sm" variant="success" type="submit">
+              Оформить заказ
+            </Button>
+          </Form>
+        </div>
       </div>
     );
   }

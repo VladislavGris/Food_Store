@@ -15,11 +15,13 @@ class ProductList extends React.Component {
       .get("http://localhost:8080/api/products")
       .then((response) => response.data)
       .then((data) => this.setState({ products: data }));
-    this.setState({
-      cart: JSON.parse(localStorage.getItem("cart")),
-    });
+    console.log(JSON.parse(localStorage.getItem("cart")));
+    if (JSON.parse(localStorage.getItem("cart")) !== null) {
+      this.setState({
+        cart: JSON.parse(localStorage.getItem("cart")),
+      });
+    }
   }
-
   addToCart(productId) {
     let val = this.state.cart.find((el) => el.id === productId);
     if (val !== undefined) alert("Продукт уже в корзине");
@@ -29,6 +31,7 @@ class ProductList extends React.Component {
       );
     }
     localStorage.setItem("cart", JSON.stringify(this.state.cart));
+    console.log(this.state.cart);
     // this.props.updateCart(this.state.cart);
   }
 

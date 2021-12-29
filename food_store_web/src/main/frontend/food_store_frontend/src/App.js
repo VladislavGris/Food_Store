@@ -40,8 +40,8 @@ class App extends React.Component {
             <Col lg={12} style={marginTop}>
               <Routes>
                 <Route exact path="/" element={<Welcome />} />
-                <Route exact path="/login" element={<Login />} />
-                <Route exact path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route
                   exact
                   path="/market"

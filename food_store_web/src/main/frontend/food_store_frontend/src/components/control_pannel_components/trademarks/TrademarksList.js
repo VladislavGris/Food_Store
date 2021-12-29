@@ -32,11 +32,11 @@ class TrademarksList extends React.Component {
                   <tr>
                     <th>Id</th>
                     <th>Торговая марка</th>
-                    <th>Операции</th>
+                    {/* <th>Операции</th> */}
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.trademarks.length == 0 ? (
+                  {this.state.trademarks.length === 0 ? (
                     <tr align="center">
                       <td colSpan="3">Нет доступных торговых марок</td>
                     </tr>
@@ -45,7 +45,7 @@ class TrademarksList extends React.Component {
                       <tr key={trademark.id}>
                         <td>{trademark.id}</td>
                         <td>{trademark.name}</td>
-                        <td>
+                        {/* <td>
                           <ButtonGroup>
                             <Button size="sm" variant="outline-primary">
                               <FontAwesomeIcon icon={faEdit} />
@@ -54,7 +54,7 @@ class TrademarksList extends React.Component {
                               <FontAwesomeIcon icon={faTrash} />
                             </Button>
                           </ButtonGroup>
-                        </td>
+                        </td> */}
                       </tr>
                     ))
                   )}

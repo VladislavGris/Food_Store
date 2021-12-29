@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+import AuthService from "../services/AuthService";
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -11,6 +12,11 @@ class Login extends React.Component {
 
   submitLogin(event) {
     event.preventDefault();
+    AuthService.login(this.state.email, this.state.password).then(() => {
+      const { history } = this.props.history;
+      history.push("/market");
+      window.location.reload();
+    });
   }
 
   loginChange(event) {
