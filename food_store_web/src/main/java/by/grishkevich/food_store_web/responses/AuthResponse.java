@@ -1,5 +1,6 @@
 package by.grishkevich.food_store_web.responses;
 
+import by.grishkevich.food_store_data.models.Client;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -7,4 +8,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class AuthResponse {
     private String token;
+    private Client client;
 }

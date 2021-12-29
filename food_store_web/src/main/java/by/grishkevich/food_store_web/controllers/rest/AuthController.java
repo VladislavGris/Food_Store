@@ -32,6 +32,7 @@ public class AuthController {
         log.error("POST");
         Client authClient = clientService.findByLoginAndPassword(client.getEmail(), client.getPassword());
         String token = jwtProvider.generateToken(authClient.getEmail());
-        return new AuthResponse(token);
+
+        return new AuthResponse(token,client);
     }
 }

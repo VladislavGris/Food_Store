@@ -15,6 +15,9 @@ class ProductList extends React.Component {
       .get("http://localhost:8080/api/products")
       .then((response) => response.data)
       .then((data) => this.setState({ products: data }));
+    this.setState({
+      cart: JSON.parse(localStorage.getItem("cart")),
+    });
   }
 
   addToCart(productId) {
@@ -25,8 +28,8 @@ class ProductList extends React.Component {
         this.state.products.filter((product) => product.id === productId)[0]
       );
     }
-    console.log(this.props);
-    this.props.updateCart(this.state.cart);
+    localStorage.setItem("cart", JSON.stringify(this.state.cart));
+    // this.props.updateCart(this.state.cart);
   }
 
   render() {

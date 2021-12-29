@@ -10,7 +10,19 @@ class Cart extends React.Component {
     this.state = { products: [] };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.setState({
+      products: JSON.parse(localStorage.getItem("cart")),
+    });
+  }
+
+  deleteProduct = (productId) => {
+    this.setState({
+      products: this.state.products.filter(
+        (product) => product.id !== productId
+      ),
+    });
+  };
 
   render() {
     return (
@@ -39,7 +51,7 @@ class Cart extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.products.length == 0 ? (
+                  {this.state.products.length === 0 ? (
                     <tr align="center">
                       <td colSpan="5">Корзина пуста</td>
                     </tr>
