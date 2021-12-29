@@ -14,7 +14,11 @@ class ProductCard extends React.Component {
           <Card.Body>
             <Card.Title>{this.props.title}</Card.Title>
             <Card.Text>Цена: {this.props.price}</Card.Text>
-            <Button variant="primary" size="sm">
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => this.props.onClick(this.props.productId)}
+            >
               В корзину
             </Button>
           </Card.Body>

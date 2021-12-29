@@ -6,7 +6,8 @@ import axios from "axios";
 class ProductList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { products: [] };
+    this.state = { products: [], cart: [] };
+    this.addToCart = this.addToCart.bind(this);
   }
 
   componentDidMount() {
@@ -15,6 +16,19 @@ class ProductList extends React.Component {
       .then((response) => response.data)
       .then((data) => this.setState({ products: data }));
   }
+
+  addToCart(productId) {
+    let val = this.state.cart.find((el) => el.id === productId);
+    if (val !== undefined) alert("Продукт уже в корзине");
+    else {
+      this.state.cart.push(
+        this.state.products.filter((product) => product.id === productId)[0]
+      );
+    }
+    console.log(this.props);
+    this.props.updateCart(this.state.cart);
+  }
+
   render() {
     return (
       <Card className={"bg-transparent text-white"}>
@@ -23,10 +37,12 @@ class ProductList extends React.Component {
           <Row>
             {this.state.products.map((product) => (
               <ProductCard
+                onClick={this.addToCart}
                 key={product.id}
                 title={product.name}
                 price={product.price}
                 src={product.imageRef}
+                productId={product.id}
               />
             ))}
           </Row>

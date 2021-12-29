@@ -16,10 +16,18 @@ import ProductsList from "./components/control_pannel_components/products/Produc
 import OrdersList from "./components/control_pannel_components/orders/OrdersList";
 import AddProduct from "./components/control_pannel_components/products/AddProduct";
 import UpdateProduct from "./components/control_pannel_components/products/UpdateProduct";
+import Cart from "./components/Cart";
 function App() {
+  function updateCart(cart) {
+    this.cart = cart;
+    console.log(cart);
+  }
+
   const marginTop = {
     marginTop: "40px",
   };
+
+  const cart = [];
 
   return (
     <Router>
@@ -30,7 +38,11 @@ function App() {
               <Route exact path="/" element={<Welcome />} />
               <Route exact path="/login" element={<Login />} />
               <Route exact path="/register" element={<Register />} />
-              <Route exact path="/market" element={<Market />} />
+              <Route
+                exact
+                path="/market"
+                element={<Market updateCart={this.updateCart} />}
+              />
               <Route exact path="/control" element={<ControlPannel />} />
               <Route
                 exact
@@ -64,6 +76,7 @@ function App() {
                 path="/control/products/update/:id"
                 element={<UpdateProduct />}
               />
+              <Route exact path="/cart" element={<Cart />} />
             </Routes>
           </Col>
         </Row>
