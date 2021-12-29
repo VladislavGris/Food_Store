@@ -1,9 +1,24 @@
 import React from "react";
-import { Stack } from "react-bootstrap";
+import { Stack, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import AuthService from "../services/AuthService";
 class ControlPannel extends React.Component {
+  logout() {
+    AuthService.logout();
+    localStorage.removeItem("cart");
+    console.log("logout");
+  }
+
   render() {
-    return (
+    return JSON.parse(localStorage.getItem("user")) === null ||
+      JSON.parse(localStorage.getItem("user")).clientRole === "ROLE_USER" ? (
+      <div>
+        <div className="text-white">Вы не являетесь администратором</div>
+        <Button onClick={this.logout} className="text-white" size="sm">
+          <Link to={"/"}>Выход</Link>
+        </Button>
+      </div>
+    ) : (
       <div className="text-white text-center">
         <div>Панель управления администратора</div>
 
@@ -27,6 +42,9 @@ class ControlPannel extends React.Component {
             <Link to={"products"}>Продукты</Link>
           </div>
         </Stack>
+        <Button onClick={this.logout} size="sm">
+          <Link to={"/"}>Выход</Link>
+        </Button>
       </div>
     );
   }

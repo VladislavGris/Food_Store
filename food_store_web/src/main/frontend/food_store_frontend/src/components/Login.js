@@ -2,20 +2,37 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import AuthService from "../services/AuthService";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { email: "", password: "" };
+    this.state = { email: "", password: "", linkToPage: "" };
     this.loginChange = this.loginChange.bind(this);
     this.submitLogin = this.submitLogin.bind(this);
   }
 
   submitLogin(event) {
     event.preventDefault();
-    AuthService.login(this.state.email, this.state.password).then(() => {
-      const { history } = this.props.history;
-      history.push("/market");
-      window.location.reload();
+    let req = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+    axios.post("http://localhost:8080/login", req).then((response) => {
+      console.log(response.data);
+      if (response.data.token) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+      if (response.data.clientRole === "ROLE_USER") {
+        this.setState({
+          linkToPage: "USER",
+        });
+        console.log("USER");
+      } else {
+        this.setState({
+          linkToPage: "ADMIN",
+        });
+      }
     });
   }
 
@@ -60,6 +77,19 @@ class Login extends React.Component {
           </Button>
         </Form>
         <Link to={"/register"}>Регистрация</Link>
+        {this.state.linkToPage !== null && this.state.linkToPage !== "" ? (
+          this.state.linkToPage === "USER" ? (
+            <div>
+              <Link to={"/market"}>Магазин</Link>
+            </div>
+          ) : (
+            <div>
+              <Link to={"/control"}>Панель управления администратора</Link>
+            </div>
+          )
+        ) : (
+          <div>Вход еще не выполнен</div>
+        )}
       </div>
     );
   }
