@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+import axios from "axios";
 class Register extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +19,20 @@ class Register extends React.Component {
 
   submitRegistration(event) {
     event.preventDefault();
+    let body = {
+      name: this.state.name,
+      surname: this.state.surname,
+      email: this.state.email,
+      password: this.state.password,
+      address: this.state.address,
+      phone: this.state.phone,
+    };
+    console.log(body);
+    axios.post("http://localhost:8080/register", body).then((response) => {
+      if (response.data.id !== null || response.data.id !== undefined) {
+        alert("Вы успешно зарегистрировались. Выполните вход");
+      }
+    });
   }
 
   registrationChange(event) {

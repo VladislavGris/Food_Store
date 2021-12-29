@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -32,5 +33,10 @@ public class Client extends Person{
         super(name, surname, email, password, "ROLE_USER");
         this.address = address;
         this.phone = phone;
+    }
+
+    @PrePersist
+    void role(){
+        this.setRole("ROLE_USER");
     }
 }
