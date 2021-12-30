@@ -46,6 +46,7 @@ class AddProduct extends React.Component {
       .then((response) => response.data)
       .then((data) => {
         this.state = this.initialState;
+        alert("Продукт сохранен");
       });
   }
 

@@ -207,7 +207,7 @@ class ProductList extends React.Component {
               </div>
             </Card.Footer>
           ) : (
-            <div>Error</div>
+            <div>Продукты не найдены</div>
           )}
         </Card>
       </div>

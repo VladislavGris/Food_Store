@@ -44,4 +44,7 @@
 .image-size {
   height: 15em;
   width: 15em;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 10%;
 }

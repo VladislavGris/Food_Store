@@ -65,14 +65,14 @@ public class OrderJPAService implements OrderService {
     }
 
     @Override
-    public void processOrder(LocalDate date, LocalTime time, Long clientId, Set<Product> products) {
+    public Order processOrder(LocalDate date, LocalTime time, Long clientId, Set<Product> products) {
         Client client = clientRepository.findById(clientId).orElseThrow(()->new UserNotFoundException("Пользователь, оформляющий заказ, не найден"));
         Order order = new Order();
         order.setProducts(products);
         order.setTime(time);
         order.setClient(client);
         order.setDate(date);
-        log.error(order.toString());
-        orderRepository.save(order);
+        log.info(order.toString());
+        return orderRepository.save(order);
     }
 }

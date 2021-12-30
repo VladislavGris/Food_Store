@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
+import IntlTelInput from "react-bootstrap-intl-tel-input";
 class Register extends React.Component {
   constructor(props) {
     super(props);
@@ -28,11 +29,18 @@ class Register extends React.Component {
       phone: this.state.phone,
     };
     console.log(body);
-    axios.post("http://localhost:8080/register", body).then((response) => {
-      if (response.data.id !== null || response.data.id !== undefined) {
-        alert("Вы успешно зарегистрировались. Выполните вход");
-      }
-    });
+    axios
+      .post("http://localhost:8080/register", body)
+      .then((response) => {
+        if (response.data.id !== null || response.data.id !== undefined) {
+          alert("Вы успешно зарегистрировались. Выполните вход");
+        } else {
+          console.log(response.data);
+        }
+      })
+      .catch((error) => {
+        alert("Регистрация не выполнена. Проверьте введенные данные");
+      });
   }
 
   registrationChange(event) {

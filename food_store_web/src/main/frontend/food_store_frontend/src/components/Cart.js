@@ -47,6 +47,14 @@ class Cart extends React.Component {
 
   processOrder(event) {
     event.preventDefault();
+    if (this.state.products.length == 0) {
+      this.setState({
+        show: true,
+        message: "Корзина пуста",
+      });
+      setTimeout(() => this.setState({ show: false }), 3000);
+      return;
+    }
     let order = {
       date: this.state.date,
       time: this.state.time,

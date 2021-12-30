@@ -14,5 +14,5 @@ public interface OrderService {
     Order update(Order updOrder, Long id);
     Order save(Order order);
     void delete(Long id);
-    void processOrder(LocalDate date, LocalTime time, Long clientId, Set<Product> products);
+    Order processOrder(LocalDate date, LocalTime time, Long clientId, Set<Product> products);
 }

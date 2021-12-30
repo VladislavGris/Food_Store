@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Slf4j
 @Component
-public class ExceptionLogger {
+public class SaveProductAspect {
 
     @Pointcut("execution(* by.grishkevich.food_store_data.services.data.implementation.ProductJPAService.save(..))")
     public void aspectSaveProduct(){}
@@ -35,6 +35,7 @@ public class ExceptionLogger {
         }
     }
 
+    @AfterThrowing(pointcut = "aspectSaveProduct()", throwing="e")
     public void logAfterThrowing(JoinPoint jp, Exception e){
         log.info("AfterThrowing (save): " + e.getMessage());
     }

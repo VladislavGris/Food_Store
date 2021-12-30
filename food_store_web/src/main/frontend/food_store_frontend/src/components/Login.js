@@ -18,22 +18,27 @@ class Login extends React.Component {
       email: this.state.email,
       password: this.state.password,
     };
-    axios.post("http://localhost:8080/login", req).then((response) => {
-      console.log(response.data);
-      if (response.data.token) {
-        localStorage.setItem("user", JSON.stringify(response.data));
-      }
-      if (response.data.clientRole === "ROLE_USER") {
-        this.setState({
-          linkToPage: "USER",
-        });
-        console.log("USER");
-      } else {
-        this.setState({
-          linkToPage: "ADMIN",
-        });
-      }
-    });
+    axios
+      .post("http://localhost:8080/login", req)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.token) {
+          localStorage.setItem("user", JSON.stringify(response.data));
+        }
+        if (response.data.clientRole === "ROLE_USER") {
+          this.setState({
+            linkToPage: "USER",
+          });
+          console.log("USER");
+        } else {
+          this.setState({
+            linkToPage: "ADMIN",
+          });
+        }
+      })
+      .catch((error) => {
+        alert("Пароль или логи указаны неверно");
+      });
   }
 
   loginChange(event) {

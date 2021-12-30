@@ -1,14 +1,29 @@
 import React from "react";
-import { Row, Card, Table, ButtonGroup, Button } from "react-bootstrap";
+import {
+  Row,
+  Card,
+  Table,
+  ButtonGroup,
+  Button,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faTrash,
+  faStepBackward,
+  faFastBackward,
+  faStepForward,
+  faFastForward,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import AuthHeader from "../../../services/AuthHeader.js";
 class ProductsList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { products: [] };
+    this.state = { products: [], cart: [], productsPerPage: 9, currentPage: 1 };
   }
 
   componentDidMount() {
@@ -16,15 +31,63 @@ class ProductsList extends React.Component {
   }
 
   findAll(currentPage) {
+    currentPage -= 1;
     axios
-      .get("http://localhost:8080/api/products", { headers: AuthHeader() })
+      .get(
+        `http://localhost:8080/api/products?page=${currentPage}&size=${this.state.productsPerPage}`,
+        { headers: AuthHeader() }
+      )
       .then((response) => response.data)
       .then((data) =>
         this.setState({
           products: data.content,
+          totalPages: data.totalPages,
+          totalElements: data.totalElements,
+          currentPage: data.number + 1,
         })
       );
   }
+
+  changePage = (event) => {
+    let targetPage = parseInt(event.target.value);
+    this.findAll(targetPage);
+    this.setState({
+      [event.target.name]: targetPage,
+    });
+  };
+
+  firstPage = () => {
+    let firstPage = 1;
+    if (this.state.currentPage > firstPage) {
+      this.findAll(firstPage);
+    }
+  };
+
+  prevPage = () => {
+    let prevPage = 1;
+    if (this.state.currentPage > prevPage) {
+      this.findAll(this.state.currentPage - prevPage);
+    }
+  };
+
+  lastPage = () => {
+    let condition = Math.ceil(
+      this.state.totalElements / this.state.productsPerPage
+    );
+    if (this.state.currentPage < condition) {
+      this.findAll(condition);
+    }
+  };
+
+  nextPage = () => {
+    console.log("next page");
+    if (
+      this.state.currentPage <
+      Math.ceil(this.state.totalElements / this.state.productsPerPage)
+    ) {
+      this.findAll(this.state.currentPage + 1);
+    }
+  };
 
   deleteProduct = (productId) => {
     axios
@@ -43,6 +106,16 @@ class ProductsList extends React.Component {
   };
 
   render() {
+    const { products, currentPage, totalPages } = this.state;
+
+    const pageNumCss = {
+      width: "45px",
+      border: "1px solid #17A2B8",
+      color: "#17A2B8",
+      textAlign: "center",
+      fontWeight: "bold",
+    };
+
     return (
       <div>
         <Row>
@@ -112,6 +185,58 @@ class ProductsList extends React.Component {
                 </tbody>
               </Table>
             </Card.Body>
+            {this.state.products.length > 0 ? (
+              <Card.Footer>
+                <div style={{ float: "left" }}>
+                  Showing Page {currentPage} of {totalPages}
+                </div>
+                <div style={{ float: "right" }}>
+                  <Button
+                    type="button"
+                    variant="outline-info"
+                    disabled={this.state.currentPage === 1 ? true : false}
+                    onClick={this.firstPage}
+                  >
+                    <FontAwesomeIcon icon={faFastBackward} /> First
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline-info"
+                    disabled={this.state.currentPage === 1 ? true : false}
+                    onClick={this.prevPage}
+                  >
+                    <FontAwesomeIcon icon={faStepBackward} /> Prev
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline-info"
+                    disabled={currentPage === totalPages ? true : false}
+                    onClick={this.nextPage}
+                  >
+                    <FontAwesomeIcon icon={faStepForward} /> Next
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline-info"
+                    disabled={currentPage === totalPages ? true : false}
+                    onClick={this.lastPage}
+                  >
+                    <FontAwesomeIcon icon={faFastForward} /> Last
+                  </Button>
+                  <InputGroup size="sm">
+                    <FormControl
+                      style={pageNumCss}
+                      className={"bg-dark"}
+                      name="currentPage"
+                      value={currentPage}
+                      onChange={this.changePage}
+                    />
+                  </InputGroup>
+                </div>
+              </Card.Footer>
+            ) : (
+              <div>Продукты не найдены</div>
+            )}
           </Card>
         </Row>
       </div>

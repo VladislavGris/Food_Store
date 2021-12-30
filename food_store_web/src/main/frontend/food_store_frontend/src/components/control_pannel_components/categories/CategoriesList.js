@@ -27,7 +27,7 @@ class CategoriesList extends React.Component {
             <Card.Header>
               Список категорий{" "}
               <Link to={"/control"}>Назад к панели управления</Link>
-              <Button>Добавить категорию</Button>
+              {/* <Button>Добавить категорию</Button> */}
             </Card.Header>
             <Card.Body>
               <Table bordered hover striped variant="dark">
