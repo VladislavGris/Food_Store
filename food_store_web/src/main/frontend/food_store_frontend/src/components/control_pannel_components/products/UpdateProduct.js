@@ -6,6 +6,7 @@ import AuthHeader from "../../../services/AuthHeader.js";
 class UpdateProduct extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { id: "" };
     this.state = this.initialState;
     this.addFormChange = this.addFormChange.bind(this);
     this.submitAdd = this.submitAdd.bind(this);
@@ -69,8 +70,8 @@ class UpdateProduct extends React.Component {
       .then((data) =>
         this.setState({ trademarks: data, trademark: data[0].name })
       );
-    console.log(this.props.match);
-    // const id = +this.props.match.params.id;
+    //const id = +this.props.match.params.id;
+    //console.log(id);
     // if (id) {
     //   axios
     //     .get("http://localhost:8080/api/products")

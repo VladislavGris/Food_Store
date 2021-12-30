@@ -12,10 +12,18 @@ class ProductsList extends React.Component {
   }
 
   componentDidMount() {
+    this.findAll(this.state.currentPage);
+  }
+
+  findAll(currentPage) {
     axios
       .get("http://localhost:8080/api/products", { headers: AuthHeader() })
       .then((response) => response.data)
-      .then((data) => this.setState({ products: data }));
+      .then((data) =>
+        this.setState({
+          products: data.content,
+        })
+      );
   }
 
   deleteProduct = (productId) => {

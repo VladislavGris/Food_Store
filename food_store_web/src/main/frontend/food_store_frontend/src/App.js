@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { Container, Row, Col } from "react-bootstrap";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Welcome from "./components/Welcome";
 import Footer from "./components/Footer";
 import Login from "./components/Login";
@@ -28,7 +28,7 @@ class App extends React.Component {
       marginTop: "40px",
     };
     return (
-      <Router>
+      <BrowserRouter>
         <Container>
           <Row>
             <Col lg={12} style={marginTop}>
@@ -75,8 +75,8 @@ class App extends React.Component {
             </Col>
           </Row>
         </Container>
-        <Footer />
-      </Router>
+        {/* <Footer /> */}
+      </BrowserRouter>
     );
   }
 }
