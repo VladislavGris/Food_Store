@@ -90,7 +90,7 @@ public class ControllerErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFoundException(
-            UserAlreadyExistsException ex, WebRequest request)
+            UserNotFoundException ex, WebRequest request)
     {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());

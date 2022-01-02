@@ -10,4 +10,5 @@ public class AuthResponse {
     private String token;
     private Long clientId;
     private String clientRole;
+    private boolean isActive;
 }

@@ -49,7 +49,9 @@ class Register extends React.Component {
       .post("http://localhost:8080/register", body)
       .then((response) => {
         if (response.data.id !== null || response.data.id !== undefined) {
-          alert("Вы успешно зарегистрировались. Выполните вход");
+          alert(
+            "Вы успешно зарегистрировались. Проверьте указанный адрес электронной почты"
+          );
         }
         this.setState(this.initialState);
       })
@@ -129,7 +131,7 @@ class Register extends React.Component {
               name="surname"
               onChange={this.registrationChange}
               value={this.state.surname}
-              placeholder="Введите свою фпмилию"
+              placeholder="Введите свою фамилию"
               className={"bg-dark text-white"}
             />
             <Form.Text
