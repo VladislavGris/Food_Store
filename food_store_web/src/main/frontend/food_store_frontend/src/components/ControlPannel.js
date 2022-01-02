@@ -6,7 +6,6 @@ class ControlPannel extends React.Component {
   logout() {
     AuthService.logout();
     localStorage.removeItem("cart");
-    console.log("logout");
   }
 
   render() {
@@ -42,8 +41,14 @@ class ControlPannel extends React.Component {
             <Link to={"products"}>Продукты</Link>
           </div>
         </Stack>
-        <Button onClick={this.logout} size="sm">
-          <Link to={"/"}>Выход</Link>
+        <Button
+          onClick={this.logout}
+          className="btn btn-sm btn-danger text-white"
+          size="sm"
+        >
+          <Link to={"/"} className="text-white">
+            Выход
+          </Link>
         </Button>
       </div>
     );

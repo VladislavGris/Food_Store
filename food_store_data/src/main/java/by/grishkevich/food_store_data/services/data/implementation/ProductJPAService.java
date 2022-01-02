@@ -85,7 +85,7 @@ public class ProductJPAService implements ProductService {
                     product.setImageRef(updProduct.getImageRef());
                     product.setName(updProduct.getName());
                     product.setTrademark(updProduct.getTrademark());
-                    return product;
+                    return productRepository.save(product);
                 })
                 .orElseThrow(() -> new ProductNotFoundException(id));
     }

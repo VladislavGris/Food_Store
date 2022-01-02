@@ -7,7 +7,6 @@ export default class NavigationBar extends Component {
   logout() {
     AuthService.logout();
     localStorage.removeItem("cart");
-    console.log("logout");
   }
 
   render() {
