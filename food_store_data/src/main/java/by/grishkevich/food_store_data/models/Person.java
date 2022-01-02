@@ -42,17 +42,22 @@ public class Person extends BaseEntity implements UserDetails {
     @Size(min = 5, max = 70, message = "Пароль должен быть в диапазоне от 5 до 70 символов")
     @Column(name = "Password")
     private String password;
-
+    
     @Column(name = "Role")
     private String role;
 
+    @Column(name = "is_active")
+    private boolean isActive;
+
     public Person(Long id, String name, String surname, String email, String password){
+
         super(id);
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
         this.role = "ROLE_USER";
+        this.isActive = false;
     }
 
     @Override

@@ -30,7 +30,7 @@ public class Client extends Person{
     private String phone;
 
     public Client(String name, String surname, String email, String password, String address, String phone){
-        super(name, surname, email, password, "ROLE_USER");
+        super(name, surname, email, password, "ROLE_USER", false);
         this.address = address;
         this.phone = phone;
     }

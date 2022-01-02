@@ -8,4 +8,7 @@ public interface ClientService {
     Client save(Client client);
     Client findByLoginAndPassword(String login, String password);
     Client findByEmail(String email);
+    Iterable<Client> findAllClients();
+    Client getById(Long id);
+    Client update(Client client);
 }

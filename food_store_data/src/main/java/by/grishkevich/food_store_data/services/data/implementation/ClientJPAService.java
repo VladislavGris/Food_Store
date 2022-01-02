@@ -57,4 +57,19 @@ public class ClientJPAService implements ClientService {
     public Client findByEmail(String email) {
         return clientRepo.findByEmail(email);
     }
+
+    @Override
+    public Iterable<Client> findAllClients() {
+        return clientRepo.findAll();
+    }
+
+    @Override
+    public Client getById(Long id) {
+        return null;
+    }
+
+    @Override
+    public Client update(Client client) {
+        return null;
+    }
 }
