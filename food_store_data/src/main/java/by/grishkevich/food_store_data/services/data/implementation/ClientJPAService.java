@@ -3,7 +3,9 @@ package by.grishkevich.food_store_data.services.data.implementation;
 import by.grishkevich.food_store_data.exceptions.UserAlreadyExistsException;
 import by.grishkevich.food_store_data.exceptions.UserNotFoundException;
 import by.grishkevich.food_store_data.models.Client;
+import by.grishkevich.food_store_data.models.VerificationToken;
 import by.grishkevich.food_store_data.repositories.ClientRepository;
+import by.grishkevich.food_store_data.repositories.VerificationTokenRepository;
 import by.grishkevich.food_store_data.services.data.base.ClientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,10 +16,12 @@ import org.springframework.stereotype.Service;
 public class ClientJPAService implements ClientService {
     private final ClientRepository clientRepo;
     private final PasswordEncoder passwordEncoder;
+    private final VerificationTokenRepository tokenRepository;
 
-    public ClientJPAService(ClientRepository clientRepo, PasswordEncoder passwordEncoder){
+    public ClientJPAService(ClientRepository clientRepo, PasswordEncoder passwordEncoder, VerificationTokenRepository tokenRepository){
         this.clientRepo = clientRepo;
         this.passwordEncoder = passwordEncoder;
+        this.tokenRepository = tokenRepository;
     }
 
     @Override
@@ -36,7 +40,7 @@ public class ClientJPAService implements ClientService {
     }
 
     @Override
-    public Client save(Client client) {
+    public Client save(Client client) throws UserAlreadyExistsException {
         if(isEmailExists(client.getEmail()))
             throw new UserAlreadyExistsException(client.getEmail());
         client.setPassword(passwordEncoder.encode(client.getPassword()));
@@ -44,7 +48,7 @@ public class ClientJPAService implements ClientService {
     }
 
     @Override
-    public Client findByLoginAndPassword(String login, String password) {
+    public Client findByLoginAndPassword(String login, String password) throws UserNotFoundException{
         Client fundClient = findByEmail(login);
         if(fundClient == null)
             throw new UserNotFoundException("Пользователя с данным именем пользователя не существует");
@@ -64,12 +68,12 @@ public class ClientJPAService implements ClientService {
     }
 
     @Override
-    public Client getById(Long id) {
+    public Client getById(Long id) throws UserNotFoundException {
         return clientRepo.findById(id).orElseThrow(() -> new UserNotFoundException("Пользователь с ID " + id + " не найден"));
     }
 
     @Override
-    public Client update(Client client, Long id) {
+    public Client update(Client client, Long id) throws UserNotFoundException {
 
         return clientRepo.findById(id).map(user -> {
             user.setName(client.getName());
@@ -85,7 +89,7 @@ public class ClientJPAService implements ClientService {
     }
 
     @Override
-    public void activateUser(Long id) {
+    public void activateUser(Long id) throws UserNotFoundException {
         clientRepo.findById(id).map(client -> {
             client.setActive(true);
             return clientRepo.save(client);
@@ -93,10 +97,28 @@ public class ClientJPAService implements ClientService {
     }
 
     @Override
-    public void deactivateUser(Long id) {
+    public void deactivateUser(Long id) throws UserNotFoundException {
         clientRepo.findById(id).map(client -> {
             client.setActive(false);
             return clientRepo.save(client);
         }).orElseThrow(()-> new UserNotFoundException("Пользователь с Id " + id + " не найден"));
+    }
+
+    @Override
+    public Client getByToken(String token) {
+        Client client = tokenRepository.findByToken(token).getClient();
+        return client;
+    }
+
+    @Override
+    public VerificationToken getToken(String token) {
+        return tokenRepository.findByToken(token);
+    }
+
+    @Override
+    public void createVerificationToken(Client client, String token) {
+        VerificationToken myToken = new VerificationToken(client, token);
+        log.info(myToken.toString());
+        tokenRepository.save(myToken);
     }
 }

@@ -1,5 +1,6 @@
 package by.grishkevich.food_store_data.models;
 
+import by.grishkevich.food_store_data.validators.annotations.PhoneNumberConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class Client extends Person{
     @Column(name = "Address")
     private String address;
 
+    @PhoneNumberConstraint
     @NotBlank(message = "Телефон является обязательным полем")
     @Column(name = "Phone")
     private String phone;

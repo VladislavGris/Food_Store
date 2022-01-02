@@ -1,6 +1,7 @@
 package by.grishkevich.food_store_data.services.data.base;
 
 import by.grishkevich.food_store_data.models.Client;
+import by.grishkevich.food_store_data.models.VerificationToken;
 
 public interface ClientService {
     boolean isEmailExists(String email);
@@ -13,4 +14,7 @@ public interface ClientService {
     Client update(Client client, Long id);
     void activateUser(Long id);
     void deactivateUser(Long id);
+    Client getByToken(String token);
+    VerificationToken getToken(String token);
+    void createVerificationToken(Client client, String token);
 }

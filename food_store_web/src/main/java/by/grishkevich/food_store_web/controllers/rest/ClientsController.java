@@ -4,13 +4,17 @@ import by.grishkevich.food_store_data.dto.ClientGetDTO;
 import by.grishkevich.food_store_data.dto.ClientPostDTO;
 import by.grishkevich.food_store_data.mappers.base.ClientMapper;
 import by.grishkevich.food_store_data.models.Client;
+import by.grishkevich.food_store_data.models.VerificationToken;
 import by.grishkevich.food_store_data.services.data.implementation.ClientJPAService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000/")
@@ -47,6 +51,21 @@ public class ClientsController {
     public void deactivateUser(@PathVariable Long id){
         clientService.deactivateUser(id);
         log.info("Пользователь с Id " + id + " деактивирован");
+    }
+
+    @GetMapping("/activate")
+    public ResponseEntity<Object> activateByToken(@RequestParam("token") String token){
+        VerificationToken myToken = clientService.getToken(token);
+        if(myToken == null){
+            return new ResponseEntity<>("Invalid token", HttpStatus.NOT_FOUND);
+        }
+        Client client = myToken.getClient();
+        Calendar cal = Calendar.getInstance();
+        if ((myToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+            return new ResponseEntity<>("Verification token is expired", HttpStatus.UNAUTHORIZED);
+        }
+        clientService.activateUser(client.getId());
+        return new ResponseEntity<>("Activation successful", HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

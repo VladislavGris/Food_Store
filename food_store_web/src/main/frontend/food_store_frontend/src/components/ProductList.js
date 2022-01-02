@@ -14,9 +14,6 @@ import authHeader from "../services/AuthHeader";
 import MyToast from "./MyToast.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faList,
-  faEdit,
-  faTrash,
   faStepBackward,
   faFastBackward,
   faStepForward,

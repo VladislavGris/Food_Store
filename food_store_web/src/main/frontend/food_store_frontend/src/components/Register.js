@@ -6,17 +6,34 @@ import IntlTelInput from "react-bootstrap-intl-tel-input";
 class Register extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: "",
-      surname: "",
-      email: "",
-      password: "",
-      address: "",
-      phone: "",
-    };
+    this.state = this.initialState;
     this.submitRegistration = this.submitRegistration.bind(this);
     this.registrationChange = this.registrationChange.bind(this);
   }
+
+  initialState = {
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+    address: "",
+    phone: "",
+    nameMsg: "",
+    surnameMsg: "",
+    emailMsg: "",
+    passwordMsg: "",
+    addressMsg: "",
+    phoneMsg: "",
+  };
+
+  initialMessages = {
+    nameMsg: "",
+    surnameMsg: "",
+    emailMsg: "",
+    passwordMsg: "",
+    addressMsg: "",
+    phoneMsg: "",
+  };
 
   submitRegistration(event) {
     event.preventDefault();
@@ -28,17 +45,47 @@ class Register extends React.Component {
       address: this.state.address,
       phone: this.state.phone,
     };
-    console.log(body);
     axios
       .post("http://localhost:8080/register", body)
       .then((response) => {
         if (response.data.id !== null || response.data.id !== undefined) {
           alert("Вы успешно зарегистрировались. Выполните вход");
-        } else {
-          console.log(response.data);
         }
+        this.setState(this.initialState);
       })
       .catch((error) => {
+        this.setState(this.initialMessages);
+        console.log(error.response.data);
+        if (error.response.data.fieldErrors !== undefined) {
+          console.log(error.response.data.fieldErrors);
+          error.response.data.fieldErrors.forEach((element) => {
+            switch (element.field) {
+              case "name":
+                this.setState({ nameMsg: element.message });
+                break;
+              case "surname":
+                this.setState({ surnameMsg: element.message });
+                break;
+              case "email":
+                this.setState({ emailMsg: element.message });
+                break;
+              case "password":
+                this.setState({ passwordMsg: element.message });
+                break;
+              case "address":
+                this.setState({ addressMsg: element.message });
+                break;
+              case "phone":
+                this.setState({ phoneMsg: element.message });
+                break;
+              default:
+                console.log("default");
+            }
+          });
+        }
+        if (error.response.data.message !== undefined) {
+          this.setState({ emailMsg: error.response.data.message });
+        }
         alert("Регистрация не выполнена. Проверьте введенные данные");
       });
   }
@@ -65,6 +112,13 @@ class Register extends React.Component {
               placeholder="Введите свое имя"
               className={"bg-dark text-white"}
             />
+            <Form.Text
+              className={
+                this.state.nameMsg !== "" ? "visible text-danger" : "invisible"
+              }
+            >
+              {this.state.nameMsg}
+            </Form.Text>
           </Form.Group>
 
           <Form.Group className="mb-1" controlId="surname">
@@ -78,6 +132,15 @@ class Register extends React.Component {
               placeholder="Введите свою фпмилию"
               className={"bg-dark text-white"}
             />
+            <Form.Text
+              className={
+                this.state.surnameMsg !== ""
+                  ? "visible text-danger"
+                  : "invisible"
+              }
+            >
+              {this.state.surnameMsg}
+            </Form.Text>
           </Form.Group>
 
           <Form.Group className="mb-1" controlId="email">
@@ -91,6 +154,13 @@ class Register extends React.Component {
               placeholder="Введите свой адрес электронной почти"
               className={"bg-dark text-white"}
             />
+            <Form.Text
+              className={
+                this.state.emailMsg !== "" ? "visible text-danger" : "invisible"
+              }
+            >
+              {this.state.emailMsg}
+            </Form.Text>
           </Form.Group>
 
           <Form.Group className="mb-1" controlId="password">
@@ -104,6 +174,15 @@ class Register extends React.Component {
               placeholder="Введите пароль"
               className={"bg-dark text-white"}
             />
+            <Form.Text
+              className={
+                this.state.passwordMsg !== ""
+                  ? "visible text-danger"
+                  : "invisible"
+              }
+            >
+              {this.state.passwordMsg}
+            </Form.Text>
           </Form.Group>
 
           <Form.Group className="mb-1" controlId="address">
@@ -117,8 +196,14 @@ class Register extends React.Component {
               placeholder="Введите адрес"
               className={"bg-dark text-white"}
             />
-            <Form.Text className="text-muted">
-              По указанному адресу будет производиться доставка заказов
+            <Form.Text
+              className={
+                this.state.addressMsg !== ""
+                  ? "visible text-danger"
+                  : "invisible"
+              }
+            >
+              {this.state.addressMsg}
             </Form.Text>
           </Form.Group>
 
@@ -133,9 +218,12 @@ class Register extends React.Component {
               placeholder="Введите свой номер телефона"
               className={"bg-dark text-white"}
             />
-            <Form.Text className="text-muted">
-              По указанному телефону может позвонить курьер для уточнения места
-              доставки
+            <Form.Text
+              className={
+                this.state.phoneMsg !== "" ? "visible text-danger" : "invisible"
+              }
+            >
+              {this.state.phoneMsg}
             </Form.Text>
           </Form.Group>
           <Button size="sm" variant="success" type="submit">

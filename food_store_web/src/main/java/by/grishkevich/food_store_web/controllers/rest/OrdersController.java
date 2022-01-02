@@ -35,10 +35,6 @@ public class OrdersController {
 
     @PostMapping
     public void newOrder(@RequestBody OrderRequest order){
-        log.info(order.getDate().toString());
-        log.info(order.getTime().toString());
-        log.info(order.getClient().toString());
-        log.info(order.getProducts().toString());
         Order order1 = orderService.processOrder(order.getDate(),order.getTime(),order.getClient(),order.getProducts());
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("vlad.grishkevich0503@gmail.com");
