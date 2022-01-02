@@ -65,11 +65,38 @@ public class ClientJPAService implements ClientService {
 
     @Override
     public Client getById(Long id) {
-        return null;
+        return clientRepo.findById(id).orElseThrow(() -> new UserNotFoundException("Пользователь с ID " + id + " не найден"));
     }
 
     @Override
-    public Client update(Client client) {
-        return null;
+    public Client update(Client client, Long id) {
+
+        return clientRepo.findById(id).map(user -> {
+            user.setName(client.getName());
+            user.setSurname(client.getSurname());
+            user.setEmail(client.getEmail());
+            user.setPassword(passwordEncoder.encode(client.getPassword()));
+            user.setAddress(client.getAddress());
+            user.setPhone(client.getPhone());
+            user.setRole(client.getRole());
+            user.setActive(client.isActive());
+            return clientRepo.save(user);
+        }).orElseThrow(()->new UserNotFoundException("Пользователь с Id " + id + " не найден"));
+    }
+
+    @Override
+    public void activateUser(Long id) {
+        clientRepo.findById(id).map(client -> {
+            client.setActive(true);
+            return clientRepo.save(client);
+        }).orElseThrow(()-> new UserNotFoundException("Пользователь с Id " + id + " не найден"));
+    }
+
+    @Override
+    public void deactivateUser(Long id) {
+        clientRepo.findById(id).map(client -> {
+            client.setActive(false);
+            return clientRepo.save(client);
+        }).orElseThrow(()-> new UserNotFoundException("Пользователь с Id " + id + " не найден"));
     }
 }

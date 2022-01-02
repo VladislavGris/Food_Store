@@ -10,5 +10,7 @@ public interface ClientService {
     Client findByEmail(String email);
     Iterable<Client> findAllClients();
     Client getById(Long id);
-    Client update(Client client);
+    Client update(Client client, Long id);
+    void activateUser(Long id);
+    void deactivateUser(Long id);
 }

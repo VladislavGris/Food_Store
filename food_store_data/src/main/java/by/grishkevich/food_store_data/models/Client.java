@@ -36,7 +36,8 @@ public class Client extends Person{
     }
 
     @PrePersist
-    void role(){
+    void roleActivePersist(){
         this.setRole("ROLE_USER");
+        this.setActive(false);
     }
 }
