@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public interface ProductService {
+    Page<Product> getAllProducts(Pageable pageable, String searchText);
     Page<Product> getAllProducts(Pageable pageable);
     Iterable<Product> getProductsByTrademark(Trademark trademark);
     Iterable<Product> getProductsByCountry(Country country);

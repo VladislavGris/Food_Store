@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Col, Button, Row } from "react-bootstrap";
+import { Card, Col, Button, Row, Stack } from "react-bootstrap";
 import "../App.css";
 class ProductCard extends React.Component {
   constructor(props) {
@@ -20,7 +20,22 @@ class ProductCard extends React.Component {
               />
               <Card.Body>
                 <Card.Title>{this.props.title}</Card.Title>
-                <Card.Text>Цена: {this.props.price}</Card.Text>
+                <Card.Text>
+                  <Stack>
+                    <div>
+                      Цена: <u>{this.props.price}</u>
+                    </div>
+                    <div>
+                      Страна: <u>{this.props.country}</u>
+                    </div>
+                    <div>
+                      Категория: <u>{this.props.category}</u>
+                    </div>
+                    <div>
+                      Торговая марка: <u>{this.props.trademark}</u>
+                    </div>
+                  </Stack>
+                </Card.Text>
                 <Button
                   variant="primary"
                   size="sm"

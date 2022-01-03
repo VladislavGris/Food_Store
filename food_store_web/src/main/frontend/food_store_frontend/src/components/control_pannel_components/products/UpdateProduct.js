@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import AuthHeader from "../../../services/AuthHeader.js";
 
 export default function UpdateProduct() {
@@ -16,6 +16,7 @@ export default function UpdateProduct() {
   const [countries, setCountries] = useState("");
   const [categories, setCategories] = useState("");
   const [wasLoaded, setWasLoaded] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (trademarks === "") {
@@ -87,6 +88,7 @@ export default function UpdateProduct() {
       .then((response) => response.data)
       .then((data) => {
         console.log(data);
+        navigate("/control/products");
       });
   }
 

@@ -33,6 +33,11 @@ public class ProductJPAService implements ProductService {
     }
 
     @Override
+    public Page<Product> getAllProducts(Pageable pageable, String searchText) {
+        return productRepository.findAll(pageable,searchText+"%");
+    }
+
+    @Override
     public Page<Product> getAllProducts(Pageable pageable) {
         return productRepository.findAll(pageable);
     }

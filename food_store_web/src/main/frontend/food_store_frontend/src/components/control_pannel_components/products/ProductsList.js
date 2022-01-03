@@ -34,7 +34,7 @@ class ProductsList extends React.Component {
     currentPage -= 1;
     axios
       .get(
-        `http://localhost:8080/api/products?page=${currentPage}&size=${this.state.productsPerPage}`,
+        `http://localhost:8080/api/products?pageNumber=${currentPage}&pageSize=${this.state.productsPerPage}&sortBy=id&sortDir=asc`,
         { headers: AuthHeader() }
       )
       .then((response) => response.data)
@@ -50,6 +50,7 @@ class ProductsList extends React.Component {
 
   changePage = (event) => {
     let targetPage = parseInt(event.target.value);
+    if (targetPage > this.state.totalPages) targetPage = this.state.totalPages;
     this.findAll(targetPage);
     this.setState({
       [event.target.name]: targetPage,

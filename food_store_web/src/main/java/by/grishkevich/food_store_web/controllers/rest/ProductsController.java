@@ -8,7 +8,9 @@ import by.grishkevich.food_store_web.requests.ProductRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,9 +30,19 @@ public class ProductsController {
         this.productMapper = productMapper;
     }
 
+    @GetMapping("/search/{searchText}")
+    public Page<Product> searchProducts(Pageable pageable,@PathVariable String searchText){
+        return productService.getAllProducts(pageable,searchText);
+    }
+
     @GetMapping
-    public Page<Product> getProducts(Pageable pageable){
-        return productService.getAllProducts(pageable);
+    public Page<Product> getProducts(int pageNumber, int pageSize, String sortBy, String sortDir){
+        return productService.getAllProducts(
+                PageRequest.of(
+                        pageNumber,pageSize,
+                        sortDir.equalsIgnoreCase("asc")? Sort.by(sortBy).ascending():Sort.by(sortBy).descending()
+                )
+        );
     }
 
     @PostMapping

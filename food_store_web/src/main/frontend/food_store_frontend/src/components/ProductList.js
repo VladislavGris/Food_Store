@@ -18,27 +18,40 @@ import {
   faFastBackward,
   faStepForward,
   faFastForward,
+  faSearch,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 class ProductList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { products: [], cart: [], productsPerPage: 9, currentPage: 1 };
+    this.state = {
+      products: [],
+      cart: [],
+      productsPerPage: 9,
+      currentPage: 1,
+      priceDir: "asc",
+      search: "",
+    };
     this.state.show = false;
     this.state.message = "Message";
     this.addToCart = this.addToCart.bind(this);
   }
 
   componentDidMount() {
-    console.log(authHeader());
     this.findAll(this.state.currentPage);
+    if (JSON.parse(localStorage.getItem("cart")) !== null) {
+      this.setState({
+        cart: JSON.parse(localStorage.getItem("cart")),
+      });
+    }
   }
 
   findAll(currentPage) {
     currentPage -= 1;
-    console.log("Current Page: ", currentPage);
+    console.log("Find all");
     axios
       .get(
-        `http://localhost:8080/api/products?page=${currentPage}&size=${this.state.productsPerPage}`,
+        `http://localhost:8080/api/products?pageNumber=${currentPage}&pageSize=${this.state.productsPerPage}&sortBy=price&sortDir=${this.state.priceDir}`,
         {
           headers: authHeader(),
         }
@@ -51,18 +64,12 @@ class ProductList extends React.Component {
           totalElements: data.totalElements,
           currentPage: data.number + 1,
         });
-        console.log(this.state.products.length);
       });
-    console.log(JSON.parse(localStorage.getItem("cart")));
-    if (JSON.parse(localStorage.getItem("cart")) !== null) {
-      this.setState({
-        cart: JSON.parse(localStorage.getItem("cart")),
-      });
-    }
   }
 
   changePage = (event) => {
     let targetPage = parseInt(event.target.value);
+    if (targetPage > this.state.totalPages) targetPage = this.state.totalPages;
     this.findAll(targetPage);
     this.setState({
       [event.target.name]: targetPage,
@@ -117,6 +124,49 @@ class ProductList extends React.Component {
     // this.props.updateCart(this.state.cart);
   }
 
+  doFilter(priceFilter) {
+    this.setState({
+      priceDir: priceFilter,
+    });
+    this.findAll(this.state.currentPage);
+    console.log("ProductList ", priceFilter);
+  }
+
+  searchChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  cancelSearch = () => {
+    this.setState({ search: "" });
+    this.findAll(this.state.currentPage);
+  };
+
+  searchData = (currentPage) => {
+    currentPage -= 1;
+    console.log(
+      `http://localhost:8080/api/products/search/${this.state.search}?page=${currentPage}&size=${this.state.productsPerPage}`
+    );
+    axios
+      .get(
+        `http://localhost:8080/api/products/search/${this.state.search}?page=${currentPage}&size=${this.state.productsPerPage}`,
+        {
+          headers: authHeader(),
+        }
+      )
+      .then((response) => response.data)
+      .then((data) => {
+        console.log(data);
+        this.setState({
+          products: data.content,
+          totalPages: data.totalPages,
+          totalElements: data.totalElements,
+          currentPage: data.number + 1,
+        });
+      });
+  };
+
   render() {
     const { products, currentPage, totalPages } = this.state;
 
@@ -139,8 +189,39 @@ class ProductList extends React.Component {
           />
         </div>
         <Card className={"bg-transparent text-white"}>
+          <Card.Header>
+            <div style={{ float: "left" }}>
+              <Card.Title>Продукты</Card.Title>
+            </div>
+            <div style={{ float: "right" }}>
+              <InputGroup size="sm">
+                <FormControl
+                  placeholder="Поиск"
+                  name="search"
+                  value={this.state.search}
+                  className={"info-border bg-dark text-white"}
+                  onChange={this.searchChange}
+                />
+                <Button
+                  size="sm"
+                  variant="outline-info"
+                  type="button"
+                  onClick={this.searchData}
+                >
+                  <FontAwesomeIcon icon={faSearch} />
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline-danger"
+                  type="button"
+                  onClick={this.cancelSearch}
+                >
+                  <FontAwesomeIcon icon={faTimes} />
+                </Button>
+              </InputGroup>
+            </div>
+          </Card.Header>
           <Card.Body>
-            <Card.Title>Продукты</Card.Title>
             <Row>
               {products.map((product) => (
                 <ProductCard
@@ -150,6 +231,9 @@ class ProductList extends React.Component {
                   price={product.price}
                   src={product.imageRef}
                   productId={product.id}
+                  category={product.category.name}
+                  country={product.country.name}
+                  trademark={product.trademark.name}
                 />
               ))}
             </Row>
@@ -157,7 +241,7 @@ class ProductList extends React.Component {
           {this.state.products.length > 0 ? (
             <Card.Footer>
               <div style={{ float: "left" }}>
-                Showing Page {currentPage} of {totalPages}
+                На странице {currentPage} из {totalPages}
               </div>
               <div style={{ float: "right" }}>
                 <Button

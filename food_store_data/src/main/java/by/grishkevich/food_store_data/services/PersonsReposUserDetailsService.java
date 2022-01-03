@@ -22,9 +22,7 @@ public class PersonsReposUserDetailsService implements UserDetailsService {
 
     @Override
     public Person loadUserByUsername(String email) throws UsernameNotFoundException {
-        log.info("Email " + email);
         Client client = clientRepo.findByEmail(email);
-        log.info(client.toString());
         if(client == null){
             throw new UsernameNotFoundException("Email '" + email + "' not found");
         }
