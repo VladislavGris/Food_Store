@@ -47,7 +47,7 @@ class OrdersList extends React.Component {
                 <tbody>
                   {this.state.orders.length == 0 ? (
                     <tr align="center">
-                      <td colSpan="3">Нет доступных продуктоы</td>
+                      <td colSpan="7">Нет доступных заказов</td>
                     </tr>
                   ) : (
                     this.state.orders.map((order) => (

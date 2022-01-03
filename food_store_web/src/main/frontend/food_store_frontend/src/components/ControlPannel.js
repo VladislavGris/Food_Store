@@ -22,9 +22,9 @@ class ControlPannel extends React.Component {
         <div>Панель управления администратора</div>
 
         <Stack direction="vertical" className="mt=3">
-          {/* <div className="bg-dark border">
+          <div className="bg-dark border">
             <Link to={"users"}>Пользователи</Link>
-          </div> */}
+          </div>
           <div className="bg-dark border">
             <Link to={"categories"}>Категории</Link>
           </div>

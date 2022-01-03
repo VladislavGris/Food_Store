@@ -27,7 +27,7 @@ public class ClientJPAService implements ClientService {
     @Override
     public boolean isEmailExists(String email) {
         if(clientRepo.findByEmail(email)!=null){
-            log.warn("Client with email '" + email + "' already exists");
+            log.warn("Пользователь с email '" + email + "' уже существует");
             return true;
         }
         log.info("Client with email '" + email + "' does not exists");
