@@ -28,6 +28,9 @@ export default class NavigationBar extends Component {
           <Link to={"/cart"} className="nav-link">
             Корзина
           </Link>
+          <Link to={"orders"} className="nav-link">
+            Мои заказы
+          </Link>
           <Button
             onClick={this.logout}
             size="sm"

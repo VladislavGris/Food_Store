@@ -92,4 +92,10 @@ public class OrderJPAService implements OrderService {
             return orderRepository.save(order1);
         }).orElseThrow(()->new OrderNotFoundException(id));
     }
+
+    @Override
+    public Iterable<Order> getAllByUser(Long id) {
+        Client client = clientRepository.findById(id).orElseThrow(()->new UserNotFoundException("Пользователь с ID " + id + " не найден"));
+        return orderRepository.findAllByClient(client);
+    }
 }

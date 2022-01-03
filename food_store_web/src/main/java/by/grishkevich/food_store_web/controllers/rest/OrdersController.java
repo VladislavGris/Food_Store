@@ -28,6 +28,11 @@ public class OrdersController {
         return orderService.getAllOrders();
     }
 
+    @GetMapping("/client/{id}")
+    public Iterable<Order> getOrdersByClient(@PathVariable Long id){
+        return orderService.getAllByUser(id);
+    }
+
     @GetMapping("/approve/{id}")
     public void approveOrder(@PathVariable Long id){
         orderService.approveOrder(id);

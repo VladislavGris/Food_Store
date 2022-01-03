@@ -17,4 +17,5 @@ public interface OrderService {
     Order processOrder(LocalDate date, LocalTime time, Long clientId, Set<Product> products);
     void approveOrder(Long id);
     void completeOrder(Long id);
+    Iterable<Order> getAllByUser(Long id);
 }

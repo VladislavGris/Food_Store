@@ -17,6 +17,7 @@ import OrdersList from "./components/control_pannel_components/orders/OrdersList
 import AddProduct from "./components/control_pannel_components/products/AddProduct";
 import UpdateProduct from "./components/control_pannel_components/products/UpdateProduct";
 import Cart from "./components/Cart";
+import MyOrders from "./components/MyOrders";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -71,6 +72,7 @@ class App extends React.Component {
                   element={<UpdateProduct />}
                 />
                 <Route exact path="/cart" element={<Cart />} />
+                <Route exact path="/market/orders" element={<MyOrders />} />
               </Routes>
             </Col>
           </Row>
