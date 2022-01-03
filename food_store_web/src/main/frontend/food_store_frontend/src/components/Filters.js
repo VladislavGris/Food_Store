@@ -57,7 +57,7 @@ export default function Filters({ doFilter }) {
       <div>Фильтры</div>
       <hr />
       <Form id="filterForm">
-        <Form.Group controlId="priceGroup">
+        {/* <Form.Group controlId="priceGroup">
           <Form.Label>Цена</Form.Label>
           <Form.Select
             name="priceFilter"
@@ -70,7 +70,7 @@ export default function Filters({ doFilter }) {
           </Form.Select>
         </Form.Group>
 
-        <hr />
+        <hr /> */}
         <Form.Group controlId="categoryGroup">
           <Form.Label>Категория</Form.Label>
           <Form.Select

@@ -70,10 +70,6 @@ class ProductList extends React.Component {
 
   filterAll(currentPage) {
     currentPage -= 1;
-    console.log(this.state.filters);
-    console.log(
-      `http://localhost:8080/api/products/filter?category=${this.state.filters.category}&country=${this.state.filters.country}&trademark=${this.state.filters.trademark}&page=${currentPage}&size=${this.state.productsPerPage}`
-    );
     axios
       .get(
         `http://localhost:8080/api/products/filter?category=${this.state.filters.category}&country=${this.state.filters.country}&trademark=${this.state.filters.trademark}&page=${currentPage}&size=${this.state.productsPerPage}`,
@@ -191,9 +187,6 @@ class ProductList extends React.Component {
         this.filterAll(this.state.currentPage);
       }
     );
-
-    //this.findAll(this.state.currentPage);
-    console.log("ProductList ", filters);
   }
 
   searchChange = (event) => {

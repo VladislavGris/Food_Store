@@ -18,12 +18,12 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
     Iterable<Product> findAllByTrademark(Trademark trademark);
     Iterable<Product> findAllByCountry(Country country);
     Iterable<Product> findAllByCategory(Category category);
-    @Query("from Product p where p.name like :searchText order by p.price desc ")
+    @Query("from Product p where p.name like :searchText order by p.price asc ")
     Page<Product> findAll(Pageable pageable,@Param("searchText") String searchText);
     @Query("from Product p " +
             "where p.category.name like :category and " +
             "p.country.name like :country and " +
-            "p.trademark.name like :trademark order by p.price desc")
+            "p.trademark.name like :trademark order by p.price asc")
     Page<Product> filter(Pageable pageable, @Param("category") String category,
                          @Param("country") String country, @Param("trademark") String trademark);
 }
