@@ -109,7 +109,7 @@ export default function UpdateProduct() {
   }
 
   function onCategoryChange(event) {
-    setCategories(event.target.value);
+    setCategory(event.target.value);
   }
 
   function onImageChange(event) {
@@ -144,7 +144,7 @@ export default function UpdateProduct() {
             name="price"
             onChange={onPriceChange}
             value={price}
-            min={0}
+            min={0.1}
             step={0.01}
             placeholder="Укажите цену продукта"
             className={"bg-dark text-white"}

@@ -172,7 +172,7 @@ class Cart extends React.Component {
             </Form.Group>
 
             <Form.Group className="mb-1" controlId="time">
-              <Form.Label>Пароль</Form.Label>
+              <Form.Label>Время доставки</Form.Label>
               <Form.Control
                 required
                 type="time"

@@ -21,19 +21,16 @@ public class CategoriesController {
 
     @GetMapping
     public Iterable<Category> getCategories(){
-        log.info("CategoriesController::getCategories");
         return categoryService.getAllCategories();
     }
 
     @GetMapping("/{id}")
     public Category getCategory(@PathVariable Long id){
-        log.info("CategoriesController::getCategory");
         return  categoryService.getById(id);
     }
 
     @PostMapping
     public Category newCategory(@Valid @RequestBody Category category){
-        log.info("CategoriesController::getCategory");
         return categoryService.save(category);
     }
 

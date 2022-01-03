@@ -7,8 +7,8 @@ import ProductList from "./ProductList";
 export default function Market() {
   const [productList, setProductList] = useState();
 
-  function onFilter(priceFilter) {
-    productList.doFilter(priceFilter);
+  function onFilter(filters) {
+    productList.doFilter(filters);
   }
 
   return (

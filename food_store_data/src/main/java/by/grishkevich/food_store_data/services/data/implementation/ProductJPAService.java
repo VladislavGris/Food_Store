@@ -43,6 +43,11 @@ public class ProductJPAService implements ProductService {
     }
 
     @Override
+    public Page<Product> filter(Pageable pageable, String category, String country, String trademark) {
+        return productRepository.filter(pageable,category+"%",country+"%",trademark+"%");
+    }
+
+    @Override
     public Iterable<Product> getProductsByTrademark(Trademark trademark) {
         return productRepository.findAllByTrademark(trademark);
     }

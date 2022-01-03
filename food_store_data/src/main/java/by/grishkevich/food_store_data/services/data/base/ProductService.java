@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface ProductService {
     Page<Product> getAllProducts(Pageable pageable, String searchText);
     Page<Product> getAllProducts(Pageable pageable);
+    Page<Product> filter(Pageable pageable, String category, String country, String trademark);
     Iterable<Product> getProductsByTrademark(Trademark trademark);
     Iterable<Product> getProductsByCountry(Country country);
     Iterable<Product> getProductsByCategory(Category category);

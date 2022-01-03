@@ -5,6 +5,7 @@ import by.grishkevich.food_store_data.mappers.base.ProductMapper;
 import by.grishkevich.food_store_data.models.Product;
 import by.grishkevich.food_store_data.services.data.implementation.ProductJPAService;
 import by.grishkevich.food_store_web.requests.ProductRequest;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,12 @@ public class ProductsController {
     public ProductsController(ProductJPAService productService, ProductMapper productMapper){
         this.productService = productService;
         this.productMapper = productMapper;
+    }
+
+    @GetMapping("/filter")
+    public Page<Product> filterProducts(Pageable pageable, @RequestParam("category") String category,
+                                        @RequestParam("country") String country,  @RequestParam("trademark") String trademark){
+        return productService.filter(pageable,category,country,trademark);
     }
 
     @GetMapping("/search/{searchText}")

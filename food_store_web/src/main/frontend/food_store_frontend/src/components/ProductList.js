@@ -31,6 +31,7 @@ class ProductList extends React.Component {
       currentPage: 1,
       priceDir: "asc",
       search: "",
+      filters: null,
     };
     this.state.show = false;
     this.state.message = "Message";
@@ -67,10 +68,41 @@ class ProductList extends React.Component {
       });
   }
 
+  filterAll(currentPage) {
+    currentPage -= 1;
+    console.log(this.state.filters);
+    console.log(
+      `http://localhost:8080/api/products/filter?category=${this.state.filters.category}&country=${this.state.filters.country}&trademark=${this.state.filters.trademark}&page=${currentPage}&size=${this.state.productsPerPage}`
+    );
+    axios
+      .get(
+        `http://localhost:8080/api/products/filter?category=${this.state.filters.category}&country=${this.state.filters.country}&trademark=${this.state.filters.trademark}&page=${currentPage}&size=${this.state.productsPerPage}`,
+        {
+          headers: authHeader(),
+        }
+      )
+      .then((response) => response.data)
+      .then((data) => {
+        this.setState({
+          products: data.content,
+          totalPages: data.totalPages,
+          totalElements: data.totalElements,
+          currentPage: data.number + 1,
+        });
+      });
+  }
+
   changePage = (event) => {
     let targetPage = parseInt(event.target.value);
     if (targetPage > this.state.totalPages) targetPage = this.state.totalPages;
-    this.findAll(targetPage);
+    if (this.state.search) {
+      this.searchData(targetPage);
+    } else if (this.state.filters) {
+      this.filterAll(targetPage);
+    } else {
+      this.findAll(targetPage);
+    }
+
     this.setState({
       [event.target.name]: targetPage,
     });
@@ -79,14 +111,26 @@ class ProductList extends React.Component {
   firstPage = () => {
     let firstPage = 1;
     if (this.state.currentPage > firstPage) {
-      this.findAll(firstPage);
+      if (this.state.search) {
+        this.searchData(firstPage);
+      } else if (this.state.filters) {
+        this.filterAll(firstPage);
+      } else {
+        this.findAll(firstPage);
+      }
     }
   };
 
   prevPage = () => {
     let prevPage = 1;
     if (this.state.currentPage > prevPage) {
-      this.findAll(this.state.currentPage - prevPage);
+      if (this.state.search) {
+        this.searchData(this.state.currentPage - prevPage);
+      } else if (this.state.filters) {
+        this.filterAll(this.state.currentPage - prevPage);
+      } else {
+        this.findAll(this.state.currentPage - prevPage);
+      }
     }
   };
 
@@ -95,7 +139,13 @@ class ProductList extends React.Component {
       this.state.totalElements / this.state.productsPerPage
     );
     if (this.state.currentPage < condition) {
-      this.findAll(condition);
+      if (this.state.search) {
+        this.searchData(condition);
+      } else if (this.state.filters) {
+        this.filterAll(condition);
+      } else {
+        this.findAll(condition);
+      }
     }
   };
 
@@ -104,7 +154,13 @@ class ProductList extends React.Component {
       this.state.currentPage <
       Math.ceil(this.state.totalElements / this.state.productsPerPage)
     ) {
-      this.findAll(this.state.currentPage + 1);
+      if (this.state.search) {
+        this.searchData(this.state.currentPage + 1);
+      } else if (this.state.filters) {
+        this.filterAll(this.state.currentPage + 1);
+      } else {
+        this.findAll(this.state.currentPage + 1);
+      }
     }
   };
 
@@ -124,12 +180,20 @@ class ProductList extends React.Component {
     // this.props.updateCart(this.state.cart);
   }
 
-  doFilter(priceFilter) {
-    this.setState({
-      priceDir: priceFilter,
-    });
-    this.findAll(this.state.currentPage);
-    console.log("ProductList ", priceFilter);
+  doFilter(filters) {
+    this.setState(
+      {
+        priceDir: filters.price,
+        filters: filters,
+        search: "",
+      },
+      () => {
+        this.filterAll(this.state.currentPage);
+      }
+    );
+
+    //this.findAll(this.state.currentPage);
+    console.log("ProductList ", filters);
   }
 
   searchChange = (event) => {
@@ -143,28 +207,36 @@ class ProductList extends React.Component {
     this.findAll(this.state.currentPage);
   };
 
+  dropFilters = () => {
+    this.setState({ filters: null });
+    this.findAll(this.state.currentPage);
+  };
+
   searchData = (currentPage) => {
-    currentPage -= 1;
-    console.log(
-      `http://localhost:8080/api/products/search/${this.state.search}?page=${currentPage}&size=${this.state.productsPerPage}`
-    );
-    axios
-      .get(
-        `http://localhost:8080/api/products/search/${this.state.search}?page=${currentPage}&size=${this.state.productsPerPage}`,
-        {
-          headers: authHeader(),
-        }
-      )
-      .then((response) => response.data)
-      .then((data) => {
-        console.log(data);
-        this.setState({
-          products: data.content,
-          totalPages: data.totalPages,
-          totalElements: data.totalElements,
-          currentPage: data.number + 1,
+    this.setState({ filters: null });
+    if (this.state.search) {
+      currentPage -= 1;
+      console.log(
+        `http://localhost:8080/api/products/search/${this.state.search}?page=${currentPage}&size=${this.state.productsPerPage}`
+      );
+      axios
+        .get(
+          `http://localhost:8080/api/products/search/${this.state.search}?page=${currentPage}&size=${this.state.productsPerPage}`,
+          {
+            headers: authHeader(),
+          }
+        )
+        .then((response) => response.data)
+        .then((data) => {
+          console.log(data);
+          this.setState({
+            products: data.content,
+            totalPages: data.totalPages,
+            totalElements: data.totalElements,
+            currentPage: data.number + 1,
+          });
         });
-      });
+    }
   };
 
   render() {
@@ -193,6 +265,16 @@ class ProductList extends React.Component {
             <div style={{ float: "left" }}>
               <Card.Title>Продукты</Card.Title>
             </div>
+            {this.state.filters ? (
+              <Button
+                size="sm"
+                variant="info"
+                className="mx-2"
+                onClick={this.dropFilters}
+              >
+                Сборосить фильтры
+              </Button>
+            ) : null}
             <div style={{ float: "right" }}>
               <InputGroup size="sm">
                 <FormControl
