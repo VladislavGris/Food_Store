@@ -4,6 +4,7 @@ import by.grishkevich.food_store_data.exceptions.OrderNotFoundException;
 import by.grishkevich.food_store_data.exceptions.UserNotFoundException;
 import by.grishkevich.food_store_data.models.Client;
 import by.grishkevich.food_store_data.models.Order;
+import by.grishkevich.food_store_data.models.OrderState;
 import by.grishkevich.food_store_data.models.Product;
 import by.grishkevich.food_store_data.repositories.ClientRepository;
 import by.grishkevich.food_store_data.repositories.OrderRepository;
@@ -49,7 +50,7 @@ public class OrderJPAService implements OrderService {
                     order.setPlacedAt(updOrder.getPlacedAt());
                     order.setProducts(updOrder.getProducts());
                     order.setState(updOrder.getState());
-                    return order;
+                    return orderRepository.save(order);
                 })
                 .orElseThrow(() -> new OrderNotFoundException(id));
     }
@@ -74,5 +75,21 @@ public class OrderJPAService implements OrderService {
         order.setDate(date);
         log.info(order.toString());
         return orderRepository.save(order);
+    }
+
+    @Override
+    public void approveOrder(Long id) {
+        Order order = orderRepository.findById(id).map(order1 -> {
+            order1.setState(OrderState.Approved);
+            return orderRepository.save(order1);
+        }).orElseThrow(()->new OrderNotFoundException(id));
+    }
+
+    @Override
+    public void completeOrder(Long id) {
+        Order order = orderRepository.findById(id).map(order1 -> {
+            order1.setState(OrderState.Completed);
+            return orderRepository.save(order1);
+        }).orElseThrow(()->new OrderNotFoundException(id));
     }
 }

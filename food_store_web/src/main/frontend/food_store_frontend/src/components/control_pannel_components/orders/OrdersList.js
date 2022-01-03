@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Card, Table, ButtonGroup, Button } from "react-bootstrap";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import AuthHeader from "../../../services/AuthHeader.js";
 class OrdersList extends React.Component {
@@ -12,6 +12,10 @@ class OrdersList extends React.Component {
   }
 
   componentDidMount() {
+    this.loadOrders();
+  }
+
+  loadOrders() {
     axios
       .get("http://localhost:8080/api/orders", { headers: AuthHeader() })
       .then((response) => response.data)
@@ -20,6 +24,14 @@ class OrdersList extends React.Component {
         console.log(data);
       });
   }
+
+  approveOrder = (orderId) => {
+    axios
+      .get("http://localhost:8080/api/orders/approve/" + orderId, {
+        headers: AuthHeader(),
+      })
+      .then((response) => this.loadOrders());
+  };
 
   render() {
     return (
@@ -41,11 +53,11 @@ class OrdersList extends React.Component {
                     <th>Состояние</th>
                     <th>Клиент</th>
                     <th>Заказанные товары</th>
-                    {/* <th>Операции</th> */}
+                    <th>Операции</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.orders.length == 0 ? (
+                  {this.state.orders.length === 0 ? (
                     <tr align="center">
                       <td colSpan="7">Нет доступных заказов</td>
                     </tr>
@@ -56,7 +68,17 @@ class OrdersList extends React.Component {
                         <td>{order.date}</td>
                         <td>{order.time}</td>
                         <td>{order.placedAt}</td>
-                        <td>{order.state}</td>
+                        <td
+                          className={
+                            order.state === "Placed"
+                              ? "text-danger"
+                              : order.state === "Approved"
+                              ? "text-info"
+                              : "text-success"
+                          }
+                        >
+                          {order.state}
+                        </td>
                         <td>{order.client.id}</td>
                         <td>
                           {order.products.map((product) => (
@@ -65,16 +87,17 @@ class OrdersList extends React.Component {
                             </div>
                           ))}
                         </td>
-                        {/* <td>
-                          <ButtonGroup>
-                            <Button size="sm" variant="outline-primary">
-                              <FontAwesomeIcon icon={faEdit} />
+                        <td>
+                          {order.state === "Placed" ? (
+                            <Button
+                              size="sm"
+                              variant="success"
+                              onClick={this.approveOrder.bind(this, order.id)}
+                            >
+                              <FontAwesomeIcon icon={faCheck} /> Подтвердить
                             </Button>
-                            <Button size="sm" variant="outline-danger">
-                              <FontAwesomeIcon icon={faTrash} />
-                            </Button>
-                          </ButtonGroup>
-                        </td> */}
+                          ) : null}
+                        </td>
                       </tr>
                     ))
                   )}

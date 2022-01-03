@@ -28,6 +28,16 @@ public class OrdersController {
         return orderService.getAllOrders();
     }
 
+    @GetMapping("/approve/{id}")
+    public void approveOrder(@PathVariable Long id){
+        orderService.approveOrder(id);
+    }
+
+    @GetMapping("/complete/{id}")
+    public void completeOrder(@PathVariable Long id){
+        orderService.completeOrder(id);
+    }
+
     @GetMapping("/{id}")
     public Order getOrder(@PathVariable Long id){
         return orderService.getById(id);

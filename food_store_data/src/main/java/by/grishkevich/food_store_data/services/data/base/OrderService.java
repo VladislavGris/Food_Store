@@ -15,4 +15,6 @@ public interface OrderService {
     Order save(Order order);
     void delete(Long id);
     Order processOrder(LocalDate date, LocalTime time, Long clientId, Set<Product> products);
+    void approveOrder(Long id);
+    void completeOrder(Long id);
 }

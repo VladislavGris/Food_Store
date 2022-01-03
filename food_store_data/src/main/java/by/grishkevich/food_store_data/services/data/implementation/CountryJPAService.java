@@ -33,7 +33,7 @@ public class CountryJPAService implements Countryservice {
         return countryRepository.findById(id)
                 .map(country -> {
                     country.setName(updCountry.getName());
-                    return country;
+                    return countryRepository.save(country);
                 })
                 .orElseThrow(() -> new CountryNotFoundException(id));
     }

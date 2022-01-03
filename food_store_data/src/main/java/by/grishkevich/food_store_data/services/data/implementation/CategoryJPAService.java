@@ -33,7 +33,7 @@ public class CategoryJPAService implements CategoryService {
         return categoryRepository.findById(id)
                 .map(category -> {
                     category.setName(updCategory.getName());
-                    return category;
+                    return categoryRepository.save(category);
                 })
                 .orElseThrow(() -> new CategoryNotFoundException(id));
     }

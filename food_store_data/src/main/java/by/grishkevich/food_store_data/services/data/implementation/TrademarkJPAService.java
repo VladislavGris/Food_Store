@@ -32,7 +32,7 @@ public class TrademarkJPAService implements TrademarkService {
         return trademarkRepository.findById(id)
                 .map(trademark -> {
                     trademark.setName(updTrademark.getName());
-                    return trademark;
+                    return trademarkRepository.save(trademark);
                 })
                 .orElseThrow(() -> new TrademarkNotFoundException(id));
     }
