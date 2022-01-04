@@ -50,11 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/docs", "/login", "/register", "/api/swagger-ui.html", "/**").permitAll()
+//                .antMatchers("/api/docs", "/login", "/register", "/api/swagger-ui.html", "/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/products", "/api/orders",
                         "/api/countries", "/api/categories", "/api/trademarks",
                         "/api/products/*", "/api/orders/*","/api/countries/*",
-                        "/api/categories/*","/api/trademarks/*").hasRole("ADMIN")
+                        "/api/categories/*","/api/trademarks/*", "/api/clients", "/api/clients/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/products", "/api/orders",
                         "/api/countries", "/api/categories", "/api/trademarks").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/products/*", "/api/orders/*","/api/countries/*",
@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers(HttpMethod.GET,"/api/products", "/api/orders").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/orders","/register").permitAll()
-//                .antMatchers("/api/docs", "/login", "/register", "/api/swagger-ui.html", "/**").permitAll()
+                .antMatchers("/api/docs", "/login", "/register", "/api/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
