@@ -51,13 +51,6 @@ public class OrdersController {
     @PostMapping
     public void newOrder(@RequestBody OrderRequest order){
         Order order1 = orderService.processOrder(order.getDate(),order.getTime(),order.getClient(),order.getProducts());
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("vlad.grishkevich0503@gmail.com");
-        //order1.getClient().getEmail()
-        message.setTo("vladislav.grishkevich@gmail.com");
-        message.setSubject("Обработка заказа");
-        message.setText("Ваш заказ с номером " + order1.getId() + " одобрен. Ожидайте доставки");
-        emailSender.send(message);
     }
 
     @PutMapping("/{id}")

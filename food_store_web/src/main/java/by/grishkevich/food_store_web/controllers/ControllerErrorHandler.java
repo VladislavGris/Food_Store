@@ -10,6 +10,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -22,6 +23,7 @@ import java.util.Map;
 @ControllerAdvice
 public class ControllerErrorHandler extends ResponseEntityExceptionHandler {
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(CategoryNotFoundException.class)
     public ResponseEntity<Object> handleCategoryNotFoundException(
             CategoryNotFoundException ex, WebRequest request)
@@ -32,7 +34,7 @@ public class ControllerErrorHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
-
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(CountryNotFoundException.class)
     public ResponseEntity<Object> handleCountryNotFoundException(
             CountryNotFoundException ex, WebRequest request)
@@ -43,7 +45,7 @@ public class ControllerErrorHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
-
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<Object> handleOrderNotFoundException(
             OrderNotFoundException ex, WebRequest request)
@@ -54,7 +56,7 @@ public class ControllerErrorHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
-
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<Object> handleProductNotFoundException(
             ProductNotFoundException ex, WebRequest request)
@@ -65,7 +67,7 @@ public class ControllerErrorHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
-
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(TrademarkNotFoundException.class)
     public ResponseEntity<Object> handleTrademarkNotFoundException(
             TrademarkNotFoundException ex, WebRequest request)
@@ -76,7 +78,7 @@ public class ControllerErrorHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
-
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<Object> handleUserAlreadyExistsException(
             UserAlreadyExistsException ex, WebRequest request)
@@ -87,7 +89,7 @@ public class ControllerErrorHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
-
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFoundException(
             UserNotFoundException ex, WebRequest request)
@@ -98,7 +100,7 @@ public class ControllerErrorHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
-
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ProductCreationException.class)
     public ResponseEntity<Object> handleProductCreationException(
             UserAlreadyExistsException ex, WebRequest request)
@@ -109,7 +111,7 @@ public class ControllerErrorHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
-
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

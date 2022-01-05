@@ -50,7 +50,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/api/docs", "/login", "/register", "/api/swagger-ui.html", "/**").permitAll()
+                .antMatchers("/api/docs", "/login", "/register", "/api/swagger-ui.html","/api/clients/activate","/api/products/filter",
+                        "/api/categories","/api/countries","/api/trademarks","/api/products").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/categories","/api/trademarks", "/api/countries",
+                        "/api/products","/api/orders/client/*", "/api/products/filter").hasRole("USER")
+                .antMatchers(HttpMethod.POST, "/api/orders").hasRole("USER")
+                .antMatchers(HttpMethod.DELETE, "/api/orders/*").hasRole("USER")
                 .antMatchers(HttpMethod.GET, "/api/products", "/api/orders",
                         "/api/countries", "/api/categories", "/api/trademarks",
                         "/api/products/*", "/api/orders/*","/api/countries/*",
@@ -61,12 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/categories/*","/api/trademarks/*").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/products/**", "/api/orders/*","/api/countries/*",
                         "/api/categories/*","/api/trademarks/*").hasRole("ADMIN")
-                //.antMatchers(HttpMethod.GET, "/api/products", "/api/orders").hasRole("USER")
-                //.antMatchers(HttpMethod.POST, "/api/orders").hasRole("USER")
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers(HttpMethod.GET,"/api/products", "/api/orders").permitAll()
-                .antMatchers(HttpMethod.POST,"/api/orders","/register").permitAll()
-                .antMatchers("/api/docs", "/login", "/register", "/api/swagger-ui.html").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/products","/api/categories","/api/trademarks","/api/countries").hasAnyRole("USER","ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

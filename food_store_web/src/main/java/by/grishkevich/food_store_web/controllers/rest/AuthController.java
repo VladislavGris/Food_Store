@@ -7,6 +7,11 @@ import by.grishkevich.food_store_data.services.data.base.ClientService;
 import by.grishkevich.food_store_web.events.OnRegistrationCompleteEvent;
 import by.grishkevich.food_store_web.responses.AuthResponse;
 import by.grishkevich.food_store_web.security.JwtProvider;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.mail.SimpleMailMessage;
@@ -33,6 +38,13 @@ public class AuthController {
         this.eventPublisher = eventPublisher;
     }
 
+    @Operation(summary = "Register new user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "User registered",
+            content = {@Content(mediaType = "application/json",
+            schema = @Schema(implementation = Client.class))}),
+            @ApiResponse(responseCode = "404",description = "Validation errors",content = @Content)
+    })
     @PostMapping("register")
     public Client registerUser(@Valid @RequestBody ClientPostDTO client){
         Client regClient = clientService.save(clientMapper.clientPostDtoToClient(client));
